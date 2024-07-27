@@ -127,6 +127,72 @@ export async function getTotalProfitByMonth(): Promise<any> {
   return totalProfitArray;
 }
 
+export async function getTotalProfitForTable(): Promise<any> {
+  const supabase = createClient();
+
+  const { data, error } = await supabase.from('transactions').select('*').order('date', { ascending: false });
+
+  if (error) {
+    console.error('Error fetching transactions:', error);
+    return error;
+  }
+
+  interface DailyProfit {
+    date: string;
+    income: number;
+    expense: number;
+    profit: number;
+    transactions: Array<{
+      id: string;
+      name: string;
+      type: string;
+      amount: number;
+      time: string;
+    }>;
+  }
+
+  const dailyProfits: Record<string, DailyProfit> = {};
+
+  data.forEach((transaction: any) => {
+    const date = new Date(transaction.date);
+    const dateKey = date.toISOString().split('T')[0]; // YYYY-MM-DD format
+
+    if (!dailyProfits[dateKey]) {
+      dailyProfits[dateKey] = {
+        date: dateKey,
+        income: 0,
+        expense: 0,
+        profit: 0,
+        transactions: [],
+      };
+    }
+
+    const amount = Number(transaction.amount);
+    if (transaction.type === 'Income') {
+      dailyProfits[dateKey].income += amount;
+    } else if (transaction.type === 'Expense') {
+      dailyProfits[dateKey].expense += amount;
+    }
+
+    dailyProfits[dateKey].profit = dailyProfits[dateKey].income - dailyProfits[dateKey].expense;
+
+    dailyProfits[dateKey].transactions.push({
+      id: transaction.id,
+      name: transaction.name,
+      type: transaction.type,
+      amount: amount,
+      time: date.toLocaleTimeString(),
+    });
+  });
+
+  // Convert the object to an array and sort by date (most recent first)
+  const sortedDailyProfits = Object.values(dailyProfits).sort((a, b) => 
+    new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
+
+  return sortedDailyProfits;
+}
+
 export async function getTotalIncomeByMonth(): Promise<any> {
   const supabase = createClient();
 
@@ -206,7 +272,13 @@ export async function getTotalExpenseByMonth(): Promise<any> {
     return error;
   }
 
-  const categorizedTransactions: Record<string, number> = {};
+  interface TransactionRecord {
+    year: number;
+    month: string;
+    expenses: number;
+  }
+
+  const categorizedTransactions: Record<string, TransactionRecord> = {};
 
   data.forEach((transaction: any) => {
     const date = new Date(transaction.date);
@@ -215,21 +287,22 @@ export async function getTotalExpenseByMonth(): Promise<any> {
     const yearMonthKey = `${year}-${month}`;
 
     if (!categorizedTransactions[yearMonthKey]) {
-      categorizedTransactions[yearMonthKey] = 0;
+      categorizedTransactions[yearMonthKey] = {
+        year: year,
+        month: month,
+        expenses: 0,
+      };
     }
 
     if (transaction.type === 'Expense') {
-      categorizedTransactions[yearMonthKey] += transaction.amount;
+      categorizedTransactions[yearMonthKey].expenses += transaction.amount;
     }
   });
 
   const totalExpenseArray: any[] = [];
 
   for (const key in categorizedTransactions) {
-    totalExpenseArray.push({
-      month: key,
-      expenses: categorizedTransactions[key],
-    });
+    totalExpenseArray.push(categorizedTransactions[key]);
   }
 
   return totalExpenseArray;

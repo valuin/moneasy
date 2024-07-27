@@ -43,14 +43,14 @@ export default function SideNavLinks(user: { id: string }) {
           </Link>
           <Link
             className={`flex gap-2 ml-8 hover:bg-emerald-50 hover:text-emerald-700 rounded-lg p-2 ${
-              pathname === `/dashboard/${user?.id}/profit`
+              pathname === `/dashboard/${user?.id}/profits`
                 ? 'bg-emerald-50 text-emerald-700'
                 : ''
             }`}
-            href={`/dashboard/${user?.id}/profit`}
+            href={`/dashboard/${user?.id}/profits`}
           >
             <CircleDollarSignIcon className="w-6 h-6" />
-            Profit
+            Profits
           </Link>
           <Link
             className={`flex gap-2 ml-8 hover:bg-emerald-50 hover:text-emerald-700 rounded-lg p-2 ${
@@ -58,10 +58,10 @@ export default function SideNavLinks(user: { id: string }) {
                 ? 'bg-emerald-50 text-emerald-700'
                 : ''
             }`}
-            href={`/dashboard/${user?.id}/income`}
+            href={`/dashboard/${user?.id}/incomes`}
           >
             <BanknoteIcon className="w-6 h-6" />
-            Income
+            Incomes
           </Link>
           <Link
             className={`flex gap-2 ml-8 hover:bg-emerald-50 hover:text-emerald-700 rounded-lg p-2 ${
