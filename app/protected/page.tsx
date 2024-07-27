@@ -1,5 +1,5 @@
-import DeployButton from '@/components/DeployButton';
 import AuthButton from '@/components/AuthButton';
+import DeployButton from '@/components/DeployButton';
 import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
 import { getTotalProfitForTable } from '@/lib/data/getTransactions';

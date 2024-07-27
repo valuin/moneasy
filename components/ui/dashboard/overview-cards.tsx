@@ -26,19 +26,19 @@ export default async function OverviewCards({
   const totalExpensesByMonth = await getTotalExpenseByMonth();
   const totalProfitByMonth = await getTotalProfitByMonth();
 
-  const totalIncome = totalIncomeByMonth.reduce((acc: number, month: any) => {
-    return acc + month.income;
+  const totalIncome = totalIncomeByMonth.reduce((acc: number, data: any) => {
+    return acc + data.income;
   }, 0);
 
   const totalExpenses = totalExpensesByMonth.reduce(
-    (acc: number, month: any) => {
-      return acc + month.expenses;
+    (acc: number, data: any) => {
+      return acc + data.expenses;
     },
     0
   );
 
-  const totalProfit = totalProfitByMonth.reduce((acc: number, month: any) => {
-    return acc + month.profit;
+  const totalProfit = totalProfitByMonth.reduce((acc: number, data: any) => {
+    return acc + data.profit;
   }, 0);
 
   return (
@@ -52,37 +52,37 @@ export default async function OverviewCards({
         </CardHeader>
         <CardContent>
           <p className="text-2xl font-bold">{transactions.length}</p>
-          <CardDescription>
-            Total transactions from the last year
-          </CardDescription>
+          <CardDescription>Total transactions this year</CardDescription>
         </CardContent>
       </Card>
       <Card>
         <CardHeader>
           <CardTitle className="flex flex-row gap-4 text-base font-normal">
             <CircleDollarSignIcon className="text-zinc-500" />
-            Profit
+            Profits
           </CardTitle>
         </CardHeader>
         <CardContent>
           <p className="text-2xl text-green-700 font-bold">
-            Rp{totalProfit.toLocaleString('en-US')}
+            {totalProfit < 0
+              ? `-Rp${Math.abs(totalProfit).toLocaleString('en-US')}`
+              : `Rp${totalProfit.toLocaleString('en-US')}`}
           </p>
-          <CardDescription>Total profit from the last year</CardDescription>
+          <CardDescription>Total profits this year</CardDescription>
         </CardContent>
       </Card>
       <Card>
         <CardHeader>
           <CardTitle className="flex flex-row gap-4 text-base font-normal">
             <BanknoteIcon className="text-zinc-500" />
-            Income
+            Incomes
           </CardTitle>
         </CardHeader>
         <CardContent>
           <p className="text-2xl text-emerald-700 font-bold">
             Rp{totalIncome.toLocaleString('en-US')}
           </p>
-          <CardDescription>Total income from the last year</CardDescription>
+          <CardDescription>Total incomes this year</CardDescription>
         </CardContent>
       </Card>
       <Card>
@@ -96,7 +96,7 @@ export default async function OverviewCards({
           <p className="text-2xl text-red-700 font-bold">
             Rp{totalExpenses.toLocaleString('en-US')}
           </p>
-          <CardDescription>Total expenses from the last year</CardDescription>
+          <CardDescription>Total expenses this year</CardDescription>
         </CardContent>
       </Card>
     </div>

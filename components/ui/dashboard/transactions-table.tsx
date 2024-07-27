@@ -32,7 +32,7 @@ export default function TransactionsTable({
               <TableCell>{transaction.time}</TableCell>
               <TableCell>{transaction.name}</TableCell>
               <TableCell>
-                Rp{transaction.amount.toLocaleString('en-US')},-
+                Rp{transaction.amount.toLocaleString('en-US')}
               </TableCell>
               <TableCell>{transaction.type}</TableCell>
             </TableRow>
