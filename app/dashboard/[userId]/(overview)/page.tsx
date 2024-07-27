@@ -13,6 +13,7 @@ export default async function Page() {
     redirect('/login');
   }
 
+
   return (
     <>
       <div className="flex gap-4 items-center ml-8">

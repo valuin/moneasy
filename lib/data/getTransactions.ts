@@ -89,7 +89,13 @@ export async function getTotalProfitByMonth(): Promise<any> {
     return error;
   }
 
-  const categorizedTransactions: Record<string, number> = {};
+  interface TransactionRecord {
+    year: number;
+    month: string;
+    profit: number;
+  }
+
+  const categorizedTransactions: Record<string, TransactionRecord> = {};
 
   data.forEach((transaction: any) => {
     const date = new Date(transaction.date);
@@ -98,23 +104,24 @@ export async function getTotalProfitByMonth(): Promise<any> {
     const yearMonthKey = `${year}-${month}`;
 
     if (!categorizedTransactions[yearMonthKey]) {
-      categorizedTransactions[yearMonthKey] = 0;
+      categorizedTransactions[yearMonthKey] = {
+        year: year,
+        month: month,
+        profit: 0,
+      };
     }
 
     if (transaction.type === 'Income') {
-      categorizedTransactions[yearMonthKey] += transaction.amount;
+      categorizedTransactions[yearMonthKey].profit += transaction.amount;
     } else if (transaction.type === 'Expense') {
-      categorizedTransactions[yearMonthKey] -= transaction.amount;
+      categorizedTransactions[yearMonthKey].profit -= transaction.amount;
     }
   });
 
   const totalProfitArray: any[] = [];
 
   for (const key in categorizedTransactions) {
-    totalProfitArray.push({
-      month: key,
-      profit: categorizedTransactions[key],
-    });
+    totalProfitArray.push(categorizedTransactions[key]);
   }
 
   return totalProfitArray;
@@ -130,7 +137,13 @@ export async function getTotalIncomeByMonth(): Promise<any> {
     return error;
   }
 
-  const categorizedTransactions: Record<string, number> = {};
+  interface TransactionRecord {
+    year: number;
+    month: string;
+    income: number;
+  }
+
+  const categorizedTransactions: Record<string, TransactionRecord> = {};
 
   data.forEach((transaction: any) => {
     const date = new Date(transaction.date);
@@ -139,24 +152,48 @@ export async function getTotalIncomeByMonth(): Promise<any> {
     const yearMonthKey = `${year}-${month}`;
 
     if (!categorizedTransactions[yearMonthKey]) {
-      categorizedTransactions[yearMonthKey] = 0;
+      categorizedTransactions[yearMonthKey] = {
+        year: year,
+        month: month,
+        income: 0,
+      };
     }
 
     if (transaction.type === 'Income') {
-      categorizedTransactions[yearMonthKey] += transaction.amount;
+      categorizedTransactions[yearMonthKey].income += transaction.amount;
     }
   });
 
   const totalIncomeArray: any[] = [];
 
   for (const key in categorizedTransactions) {
-    totalIncomeArray.push({
-      month: key,
-      income: categorizedTransactions[key],
-    });
+    totalIncomeArray.push(categorizedTransactions[key]);
   }
 
   return totalIncomeArray;
+}
+
+export async function getTotalIncomeForTable(): Promise<any> {
+  const supabase = createClient();
+
+  const { data, error } = await supabase.from('transactions').select('*');
+
+  if (error) {
+    console.error('Error fetching transactions:', error);
+    return error;
+  }
+
+  // Filter out transactions with type 'Expense'
+  const filteredTransactions = data.filter((transaction: any) => {
+    return transaction.type === 'Income';
+  });
+
+  // sort transactions by date
+  filteredTransactions.sort((a: any, b: any) => {
+      return new Date(b.date).getTime() - new Date(a.date).getTime();
+    });
+
+  return filteredTransactions;
 }
 
 export async function getTotalExpenseByMonth(): Promise<any> {
@@ -196,4 +233,27 @@ export async function getTotalExpenseByMonth(): Promise<any> {
   }
 
   return totalExpenseArray;
+}
+
+export async function getTotalExpenseForTable(): Promise<any> {
+  const supabase = createClient();
+
+  const { data, error } = await supabase.from('transactions').select('*');
+
+  if (error) {
+    console.error('Error fetching transactions:', error);
+    return error;
+  }
+
+  // Filter out transactions with type 'Income'
+  const filteredTransactions = data.filter((transaction: any) => {
+    return transaction.type === 'Expense';
+  });
+
+  // sort transactions by date
+  filteredTransactions.sort((a: any, b: any) => {
+    return new Date(b.date).getTime() - new Date(a.date).getTime();
+  });
+
+  return filteredTransactions;
 }
