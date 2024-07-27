@@ -272,7 +272,13 @@ export async function getTotalExpenseByMonth(): Promise<any> {
     return error;
   }
 
-  const categorizedTransactions: Record<string, number> = {};
+  interface TransactionRecord {
+    year: number;
+    month: string;
+    expenses: number;
+  }
+
+  const categorizedTransactions: Record<string, TransactionRecord> = {};
 
   data.forEach((transaction: any) => {
     const date = new Date(transaction.date);
@@ -281,21 +287,22 @@ export async function getTotalExpenseByMonth(): Promise<any> {
     const yearMonthKey = `${year}-${month}`;
 
     if (!categorizedTransactions[yearMonthKey]) {
-      categorizedTransactions[yearMonthKey] = 0;
+      categorizedTransactions[yearMonthKey] = {
+        year: year,
+        month: month,
+        expenses: 0,
+      };
     }
 
     if (transaction.type === 'Expense') {
-      categorizedTransactions[yearMonthKey] += transaction.amount;
+      categorizedTransactions[yearMonthKey].expenses += transaction.amount;
     }
   });
 
   const totalExpenseArray: any[] = [];
 
   for (const key in categorizedTransactions) {
-    totalExpenseArray.push({
-      month: key,
-      expenses: categorizedTransactions[key],
-    });
+    totalExpenseArray.push(categorizedTransactions[key]);
   }
 
   return totalExpenseArray;
