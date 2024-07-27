@@ -29,15 +29,12 @@ export default async function Index() {
       }}
     >
       <nav className="w-full flex justify-center h-16">
-        {/* <div className="w-full max-w-4xl flex justify-between items-center p-3 text-sm">
+        <div className="w-full max-w-4xl flex justify-between items-center p-3 text-sm">
           <DeployButton />
           {isSupabaseConnected && <AuthButton />}
-        </div> */}
+        </div>
       </nav>
       <HeroSection />
-      {/* <div className="flex-1 flex flex-col w-full items-center bg-emerald-500 ">
-        
-      </div> */}
     </div>
   );
 }
