@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 export default async function Page({ params }: { params: { userId: string } }) {
   const userId = params.userId;
-  const transactions = await getTransactions();
+  const transactions = await getTransactions(userId);
 
   return (
     <>

@@ -2,10 +2,13 @@
 
 import { createClient } from '@/utils/supabase/server';
 
-export async function getTransactions(): Promise<any> {
+export async function getTransactions(userId: string): Promise<any> {
   const supabase = createClient();
 
-  const { data, error } = await supabase.from('transactions').select('*');
+  const { data, error } = await supabase
+    .from('transactions')
+    .select('*')
+    .eq('user_id', userId);
 
   if (error) {
     console.log(error);
@@ -15,10 +18,10 @@ export async function getTransactions(): Promise<any> {
   return data;
 }
 
-export async function getTransactionsByMonth(): Promise<any> {
+export async function getTransactionsByMonth(userId: string): Promise<any> {
   const supabase = createClient();
 
-  const { data, error } = await supabase.from('transactions').select('*');
+  const { data, error } = await supabase.from('transactions').select('*').eq('user_id', userId);
 
   if (error) {
     console.log(error);
@@ -79,10 +82,10 @@ export async function getTransactionsByMonth(): Promise<any> {
   return transactionsArray;
 }
 
-export async function getTotalProfitByMonth(): Promise<any> {
+export async function getTotalProfitByMonth(userId: string): Promise<any> {
   const supabase = createClient();
 
-  const { data, error } = await supabase.from('transactions').select('*');
+  const { data, error } = await supabase.from('transactions').select('*').eq('user_id', userId);
 
   if (error) {
     console.error('Error fetching transactions:', error);
@@ -127,10 +130,10 @@ export async function getTotalProfitByMonth(): Promise<any> {
   return totalProfitArray;
 }
 
-export async function getTotalProfitForTable(): Promise<any> {
+export async function getTotalProfitForTable(userId: string): Promise<any> {
   const supabase = createClient();
 
-  const { data, error } = await supabase.from('transactions').select('*').order('date', { ascending: false });
+  const { data, error } = await supabase.from('transactions').select('*').order('date', { ascending: false }).eq('user_id', userId);
 
   if (error) {
     console.error('Error fetching transactions:', error);
@@ -193,10 +196,10 @@ export async function getTotalProfitForTable(): Promise<any> {
   return sortedDailyProfits;
 }
 
-export async function getTotalIncomeByMonth(): Promise<any> {
+export async function getTotalIncomeByMonth(userId: string): Promise<any> {
   const supabase = createClient();
 
-  const { data, error } = await supabase.from('transactions').select('*');
+  const { data, error } = await supabase.from('transactions').select('*').eq('user_id', userId);
 
   if (error) {
     console.error('Error fetching transactions:', error);
@@ -239,10 +242,10 @@ export async function getTotalIncomeByMonth(): Promise<any> {
   return totalIncomeArray;
 }
 
-export async function getTotalIncomeForTable(): Promise<any> {
+export async function getTotalIncomeForTable(userId: string): Promise<any> {
   const supabase = createClient();
 
-  const { data, error } = await supabase.from('transactions').select('*');
+  const { data, error } = await supabase.from('transactions').select('*').eq('user_id', userId);
 
   if (error) {
     console.error('Error fetching transactions:', error);
@@ -262,10 +265,10 @@ export async function getTotalIncomeForTable(): Promise<any> {
   return filteredTransactions;
 }
 
-export async function getTotalExpenseByMonth(): Promise<any> {
+export async function getTotalExpenseByMonth(userId: string): Promise<any> {
   const supabase = createClient();
 
-  const { data, error } = await supabase.from('transactions').select('*');
+  const { data, error } = await supabase.from('transactions').select('*').eq('user_id', userId);
 
   if (error) {
     console.error('Error fetching transactions:', error);
@@ -308,10 +311,10 @@ export async function getTotalExpenseByMonth(): Promise<any> {
   return totalExpenseArray;
 }
 
-export async function getTotalExpenseForTable(): Promise<any> {
+export async function getTotalExpenseForTable(userId: string): Promise<any> {
   const supabase = createClient();
 
-  const { data, error } = await supabase.from('transactions').select('*');
+  const { data, error } = await supabase.from('transactions').select('*').eq('user_id', userId);
 
   if (error) {
     console.error('Error fetching transactions:', error);
