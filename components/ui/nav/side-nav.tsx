@@ -1,7 +1,10 @@
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import SideNavLinks from '@/components/ui/nav/side-nav-links';
 import { createClient } from '@/utils/supabase/server';
+import { LogOutIcon } from 'lucide-react';
 import { redirect } from 'next/navigation';
-import SideNavLinks from './side-nav-links';
 
 export default async function SideNav() {
   const supabase = createClient();
@@ -13,6 +16,14 @@ export default async function SideNav() {
   if (!user) {
     redirect('/login');
   }
+
+  const signOut = async () => {
+    'use server';
+
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    return redirect('/login');
+  };
 
   return (
     <>
@@ -44,14 +55,29 @@ export default async function SideNav() {
           />
         </svg>
       </div>
-      <div className="flex flex-col gap-4 w-3/4">
-        <div className="flex gap-2 items-center border border-zinc-300 rounded-lg p-4">
-          <Avatar>
-            <AvatarFallback>{user.email ? user.email[0] : ''}</AvatarFallback>
-          </Avatar>
-          {user?.email}
+      <div className="flex flex-col justify-between w-3/4">
+        <div className="flex flex-col gap-4 mb-20">
+          <Card>
+            <div className="flex gap-2 items-center p-4">
+              <Avatar>
+                <AvatarFallback>
+                  {user.email ? user.email[0] : ''}
+                </AvatarFallback>
+              </Avatar>
+              {user?.email}
+            </div>
+          </Card>
+          <SideNavLinks id={user.id} />
         </div>
-        <SideNavLinks id={user.id} />
+        <form action={signOut}>
+          <Button
+            className="flex w-full gap-2 items-center text-red-500 justify-start hover:bg-zinc-50 hover:text-red-500"
+            variant="ghost"
+          >
+            <LogOutIcon />
+            Log Out
+          </Button>
+        </form>
       </div>
     </>
   );
