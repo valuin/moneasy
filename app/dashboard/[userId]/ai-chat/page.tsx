@@ -1,10 +1,9 @@
 'use client';
-
 import { useState } from 'react';
 import { Message, continueConversation } from '@/lib/actions/getAI';
 import { readStreamableValue } from 'ai/rsc';
 import { marked } from 'marked';
-import { Bot, SendHorizontalIcon, UserIcon } from 'lucide-react';
+import { Bot, SendHorizontalIcon, UserIcon, MessageCircleQuestion } from 'lucide-react';
 
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30;
@@ -13,12 +12,10 @@ export default function Page() {
   const [conversation, setConversation] = useState<Message[]>([]);
   const [input, setInput] = useState<string>('');
   const [hasConversationStarted, setHasConversationStarted] = useState<boolean>(false);
-  const [generation, setGeneration] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSendMessage = async () => {
+  const handleSendMessage = async (messageContent: string) => {
     // Append the user's message to the conversation
-    const newConversation = [...conversation, { role: 'user', content: input }];
+    const newConversation: Message[] = [...conversation, { role: 'user', content: messageContent }];
     setConversation(newConversation);
 
     // Clear the input field
@@ -60,6 +57,12 @@ export default function Page() {
     );
   };
 
+  const predefinedMessages = [
+    'What are the current trends and growth opportunities in our industry, and how do our products/services align with these trends?',
+    'Can you analyze the market share of our competitors and suggest strategies to improve our position?',
+    'What are the most significant challenges facing our business, and how can we address them?',
+  ];
+
   return (
     <div className="flex flex-col justify-center h-full">
       <div className="w-full rounded-lg h-5/6">
@@ -67,13 +70,18 @@ export default function Page() {
           {conversation.map((message, index) => renderMessage(message, index))}
           {!hasConversationStarted && (
             <div>
-              <h1 className="text-6xl text-white mb-4">
+              <h1 className="text-6xl text-white mb-10">
                 Hello! <br />
                 Need assistance with your business <br /> analysis? I'm here to help!
               </h1>
-              <button onClick={() => setHasConversationStarted(true)} className="px-4 py-2 font-bold text-white bg-blue-500 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
-                Generate
-              </button>
+              <div className="flex flex-row space-x-4 container justify-center items-top ">
+                {predefinedMessages.map((message, index) => (
+                  <button key={index} onClick={() => handleSendMessage(message)} className="p-5 w-5/6 h-52 max-h-15 font-bold text-neutral-700 bg-white rounded-lg hover:bg-slate-200 text-start">
+                    <MessageCircleQuestion className="text-yellow-500" />
+                    <p className="mt-4">{message}</p>
+                  </button>
+                ))}
+              </div>
             </div>
           )}
         </div>
@@ -87,11 +95,11 @@ export default function Page() {
             placeholder="Type your message..."
             onKeyDown={(event) => {
               if (event.key === 'Enter') {
-                handleSendMessage();
+                handleSendMessage(input);
               }
             }}
           />
-          <button onClick={handleSendMessage} className="absolute right-2 px-4 py-2 font-bold text-white">
+          <button onClick={() => handleSendMessage(input)} className="absolute right-2 px-4 py-2 font-bold text-white">
             <SendHorizontalIcon className="text-black" />
           </button>
         </div>
