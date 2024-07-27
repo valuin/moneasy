@@ -1,6 +1,6 @@
 import AuthButton from "../components/AuthButton";
 import { createClient } from "@/utils/supabase/server";
-import HeroSection from "@/components/landing-page/hero-section";
+import HeroSection from "@/components/ui/landing-page/hero-section";
 import BrandLogo from "@/components/BrandLogo";
 import Link from "next/link";
 

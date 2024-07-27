@@ -1,3 +1,6 @@
+import React from 'react';
+import WaveShape from './WaveShape';
+
 export default function HeroSection() {
   return (
     <div className="flex flex-col items-center mt-60">
@@ -6,6 +9,7 @@ export default function HeroSection() {
         Insightful Analytics
       </h1>
       <p className="text-white text-center mt-10">Explore New Possibilities with Advanced Data Insights</p>
+      <WaveShape />
     </div>
   );
 }
