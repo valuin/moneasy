@@ -13,8 +13,9 @@ export default function ProfitsTable({ profits }: { profits: any }) {
         <TableHeader>
           <TableRow>
             <TableCell>No</TableCell>
-            <TableCell>Year</TableCell>
-            <TableCell>Month</TableCell>
+            <TableCell>Date</TableCell>
+            <TableCell>Income</TableCell>
+            <TableCell>Expense</TableCell>
             <TableCell>Profit</TableCell>
           </TableRow>
         </TableHeader>
@@ -22,9 +23,14 @@ export default function ProfitsTable({ profits }: { profits: any }) {
           {profits.map((profit: any, index: number) => (
             <TableRow key={index}>
               <TableCell>{index + 1}</TableCell>
-              <TableCell>{profit.year}</TableCell>
-              <TableCell>{profit.month}</TableCell>
-              <TableCell>{profit.profit.toLocaleString('en-US')}</TableCell>
+              <TableCell>{profit.date}</TableCell>
+              <TableCell>Rp{profit.income.toLocaleString('en-US')}</TableCell>
+              <TableCell>Rp{profit.expense.toLocaleString('en-US')}</TableCell>
+              <TableCell>
+                {profit.profit < 0
+                  ? `-Rp${Math.abs(profit.profit).toLocaleString('en-US')}`
+                  : `Rp${profit.profit.toLocaleString('en-US')}`}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

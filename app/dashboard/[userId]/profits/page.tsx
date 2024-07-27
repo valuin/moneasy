@@ -1,13 +1,11 @@
 import ProfitsTable from '@/components/ui/dashboard/profits-table';
-import { getTotalProfitByMonth } from '@/lib/data/getTransactions';
+import { getTotalProfitForTable } from '@/lib/data/getTransactions';
 import { ArrowLeftIcon } from 'lucide-react';
 import Link from 'next/link';
 
 export default async function Page({ params }: { params: { userId: string } }) {
   const userId = params.userId;
-  const profits = await getTotalProfitByMonth();
-
-  console.log(profits);
+  const profits = await getTotalProfitForTable();
 
   return (
     <>

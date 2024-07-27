@@ -78,7 +78,7 @@ export function CashFlowChart({
       </CardContent>
       <CardFooter className="flex-col items-start gap-2 text-sm">
         <div className="leading-none text-muted-foreground">
-          Showing income and expenses from this year
+          Showing income and expenses this year
         </div>
       </CardFooter>
     </Card>
