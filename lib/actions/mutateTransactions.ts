@@ -7,6 +7,7 @@ import { z } from 'zod';
 
 const TransactionSchema = z.object({
   id: z.string(),
+  userId : z.string(),
   type: z.string(),
   name: z.string(),
   amount: z.number(),
@@ -16,10 +17,11 @@ const TransactionSchema = z.object({
 
 const CreateTransaction = TransactionSchema.omit({ id: true });
 
-export async function createTransaction(formData: FormData) {
+export async function createTransaction(formData: FormData, userId: string) {
   const supabase = createClient();
 
   const validatedFields = CreateTransaction.safeParse({
+    userId,
     name: formData.get('name'),
     type: formData.get('type'),
     amount: Number(formData.get('amount')),
@@ -39,6 +41,7 @@ export async function createTransaction(formData: FormData) {
   try {
     const { error } = await supabase.from('transactions').insert([
       {
+        userId,
         name,
         type,
         amount,

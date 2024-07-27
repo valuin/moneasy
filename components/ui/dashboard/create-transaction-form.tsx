@@ -37,7 +37,7 @@ const formSchema = z.object({
     .max(8, { message: 'Transaction time is invalid' }),
 });
 
-export default function CreateTransactionForm() {
+export default function CreateTransactionForm({ userId }: { userId: string }) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -57,7 +57,7 @@ export default function CreateTransactionForm() {
     formData.append('date', values.date.toISOString());
     formData.append('time', values.time);
 
-    await createTransaction(formData);
+    await createTransaction(formData, userId);
 
     form.reset();
     window.location.reload();
