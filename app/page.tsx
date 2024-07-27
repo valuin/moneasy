@@ -1,6 +1,7 @@
 import AuthButton from "../components/AuthButton";
 import { createClient } from "@/utils/supabase/server";
 import HeroSection from "@/components/ui/landing-page/hero-section";
+import Services from "@/components/ui/landing-page/services";
 import BrandLogo from "@/components/BrandLogo";
 import Link from "next/link";
 
@@ -18,9 +19,9 @@ export default async function Index() {
 
   return (
     <div
-      className="flex-1 w-full flex flex-col items-center"
+      className=" w-full w-max-content flex flex-col items-center  bg-emerald-950"
       style={{
-        backgroundImage: "url('/hero-pic.png')",
+        backgroundImage: "url('/WaveBg.png')",
         backgroundSize: '100%', // Zoom in
         backgroundPosition: 'center top', // Indent upwards
         backgroundRepeat: 'no-repeat',
@@ -30,7 +31,7 @@ export default async function Index() {
         <div className="w-full max-w-4xl flex justify-between items-center text-sm mt-8">
           <div className="flex items-center">
             <BrandLogo />
-            <ul className="flex space-x-4 font-semibold gradient-text ml-3">
+            <ul className="flex space-x-4 text-base font-semibold gradient-text ml-3">
               <li>
                 <Link href="#home">Home</Link>
               </li>
@@ -46,6 +47,7 @@ export default async function Index() {
         </div>
       </nav>
       <HeroSection />
+      <Services />
     </div>
   );
 }
