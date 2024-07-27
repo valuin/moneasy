@@ -1,4 +1,4 @@
-import ExpensesTable from '@/components/ui/dashboard/expenses-table';
+import ExpensesTable from '@/components/ui/dashboard/tables/expenses-table';
 import { getTotalExpenseForTable } from '@/lib/data/getTransactions';
 import { ArrowLeftIcon } from 'lucide-react';
 import Link from 'next/link';
@@ -21,7 +21,7 @@ export default async function Page({ params }: { params: { userId: string } }) {
           <p>Here's a list of your expenses!</p>
         </div>
       </div>
-      <ExpensesTable expenses={expenses} />
+      <ExpensesTable expenses={expenses.reverse()} />
     </>
   );
 }

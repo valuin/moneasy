@@ -5,6 +5,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { Badge } from '@/components/ui/badge';
 
 export default function TransactionsTable({
   transactions,
@@ -20,7 +21,7 @@ export default function TransactionsTable({
             <TableCell>Date</TableCell>
             <TableCell>Time</TableCell>
             <TableCell>Name</TableCell>
-            <TableCell>Price</TableCell>
+            <TableCell>Amount</TableCell>
             <TableCell>Type</TableCell>
           </TableRow>
         </TableHeader>
@@ -34,7 +35,13 @@ export default function TransactionsTable({
               <TableCell>
                 Rp{transaction.amount.toLocaleString('en-US')}
               </TableCell>
-              <TableCell>{transaction.type}</TableCell>
+              <TableCell>
+                {transaction.type === 'Income' ? (
+                  <Badge className="bg-emerald-500 hover:bg-emerald-400">{transaction.type}</Badge>
+                ) : (
+                  <Badge variant='destructive'>{transaction.type}</Badge>
+                )}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

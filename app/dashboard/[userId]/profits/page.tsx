@@ -1,4 +1,4 @@
-import ProfitsTable from '@/components/ui/dashboard/profits-table';
+import ProfitsTable from '@/components/ui/dashboard/tables/profits-table';
 import { getTotalProfitForTable } from '@/lib/data/getTransactions';
 import { ArrowLeftIcon } from 'lucide-react';
 import Link from 'next/link';
@@ -21,7 +21,7 @@ export default async function Page({ params }: { params: { userId: string } }) {
           <p>Here's a list of your profits!</p>
         </div>
       </div>
-      <ProfitsTable profits={profits} />
+      <ProfitsTable profits={profits.reverse()} />
     </>
   );
 }
