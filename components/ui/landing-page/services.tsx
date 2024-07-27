@@ -4,7 +4,7 @@ import { ChartColumn , FileText, Sparkles  } from 'lucide-react'; // Importing i
 const services = [
   {
     name: 'Data Visualization',
-    desc: 'Get a comprehensive overview of your business with our data visualization tools.',
+    desc: 'Get a comprehensive overview of your business with our data visualization tools, including charts, analytics, and more.',
     icon: ChartColumn  // Icon for Analytics
   },
   {

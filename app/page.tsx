@@ -1,12 +1,11 @@
-
-import AuthButton from '../components/AuthButton';
-import { createClient } from '@/utils/supabase/server';
-import HeroSection from '@/components/ui/landing-page/hero-section';
-import Services from '@/components/ui/landing-page/services';
-import Head from 'next/head';
-import BrandLogo from '@/components/BrandLogo';
-import Link from 'next/link';
-import Footer from '@/components/ui/landing-page/footer';
+import AuthButton from "../components/AuthButton";
+import { createClient } from "@/utils/supabase/server";
+import HeroSection from "@/components/ui/landing-page/hero-section";
+import Services from "@/components/ui/landing-page/services";
+import Head from "next/head";
+import BrandLogo from "@/components/BrandLogo";
+import Link from "next/link";
+import Footer from "@/components/ui/landing-page/footer";
 import { redirect } from "next/navigation";
 
 export default async function Index() {
@@ -40,12 +39,18 @@ export default async function Index() {
           <div className="w-full max-w-4xl flex justify-between items-center text-sm mt-8 scroll-smooth">
             <div className="flex items-center scroll-smooth">
               <BrandLogo />
-              <ul className="flex space-x-4 text-base font-semibold gradient-text ml-3 scroll-smooth">
-                <li>
-                  <Link href="/#services" passHref>Services</Link>
+              <ul className="flex space-x-4 text-base font-semibold gradient-text ml-12 scroll-smooth">
+                <li className="relative group">
+                  <Link href="/#services" passHref>
+                    <span className="hover:no-underline gradient-text">Services</span>
+                  </Link>
+                  <span className="absolute left-0 bottom-0 w-full h-0.5 bg-gradient-to-r from-emerald-500 to-emerald-950 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
                 </li>
-                <li>
-                  <Link href="/#contacts" passHref>Contacts</Link>
+                <li className="relative group">
+                  <Link href="/#contacts" passHref>
+                    <span className="hover:no-underline gradient-text">Contacts</span>
+                  </Link>
+                  <span className="absolute left-0 bottom-0 w-full h-0.5 bg-gradient-to-r from-emerald-500 to-emerald-950 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
                 </li>
               </ul>
             </div>
