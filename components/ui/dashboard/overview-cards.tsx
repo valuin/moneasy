@@ -6,17 +6,41 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import {
+  getTotalExpenseByMonth,
+  getTotalIncomeByMonth,
+  getTotalProfitByMonth,
+} from '@/lib/data/getTransactions';
+import {
   ArrowLeftRightIcon,
   BanknoteIcon,
   CircleDollarSignIcon,
   CreditCardIcon,
 } from 'lucide-react';
 
-export default function OverviewCards({ transactions }: { transactions: any }) {
-  const totalIncome = 100000;
-  const totalExpenses = 50000;
-  const totalProfit = totalIncome - totalExpenses;
-  
+export default async function OverviewCards({
+  transactions,
+}: {
+  transactions: any;
+}) {
+  const totalIncomeByMonth = await getTotalIncomeByMonth();
+  const totalExpensesByMonth = await getTotalExpenseByMonth();
+  const totalProfitByMonth = await getTotalProfitByMonth();
+
+  const totalIncome = totalIncomeByMonth.reduce((acc: number, month: any) => {
+    return acc + month.income;
+  }, 0);
+
+  const totalExpenses = totalExpensesByMonth.reduce(
+    (acc: number, month: any) => {
+      return acc + month.expenses;
+    },
+    0
+  );
+
+  const totalProfit = totalProfitByMonth.reduce((acc: number, month: any) => {
+    return acc + month.profit;
+  }, 0);
+
   return (
     <div className="grid grid-cols-2 gap-4">
       <Card>
@@ -29,7 +53,7 @@ export default function OverviewCards({ transactions }: { transactions: any }) {
         <CardContent>
           <p className="text-2xl font-bold">{transactions.length}</p>
           <CardDescription>
-            Total transactions from the last 6 months
+            Total transactions from the last year
           </CardDescription>
         </CardContent>
       </Card>
@@ -41,14 +65,10 @@ export default function OverviewCards({ transactions }: { transactions: any }) {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <p
-            className={`text-2xl font-bold ${
-              totalIncome > totalExpenses ? 'text-emerald-700' : 'text-red-700'
-            }`}
-          >
-            Rp{totalProfit}
+          <p className="text-2xl text-green-700 font-bold">
+            Rp{totalProfit.toLocaleString('en-US')}
           </p>
-          <CardDescription>Total profit from the last 6 months</CardDescription>
+          <CardDescription>Total profit from the last year</CardDescription>
         </CardContent>
       </Card>
       <Card>
@@ -59,8 +79,10 @@ export default function OverviewCards({ transactions }: { transactions: any }) {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-2xl text-emerald-700 font-bold">Rp{totalIncome}</p>
-          <CardDescription>Total income from the last 6 months</CardDescription>
+          <p className="text-2xl text-emerald-700 font-bold">
+            Rp{totalIncome.toLocaleString('en-US')}
+          </p>
+          <CardDescription>Total income from the last year</CardDescription>
         </CardContent>
       </Card>
       <Card>
@@ -71,10 +93,10 @@ export default function OverviewCards({ transactions }: { transactions: any }) {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-2xl text-red-700 font-bold">Rp{totalExpenses}</p>
-          <CardDescription>
-            Total expenses from the last 6 months
-          </CardDescription>
+          <p className="text-2xl text-red-700 font-bold">
+            Rp{totalExpenses.toLocaleString('en-US')}
+          </p>
+          <CardDescription>Total expenses from the last year</CardDescription>
         </CardContent>
       </Card>
     </div>

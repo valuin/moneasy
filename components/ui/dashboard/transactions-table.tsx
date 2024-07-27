@@ -11,8 +11,6 @@ export default function TransactionsTable({
 }: {
   transactions: any;
 }) {
-  console.log(transactions);
-
   return (
     <div className="bg-white rounded-md border p-4">
       <Table>

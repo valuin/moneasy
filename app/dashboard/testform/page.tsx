@@ -1,10 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
 import { PostgrestError } from '@supabase/postgrest-js';
 import { getTransactions } from '@/lib/data/getTransactions';
-import { updateTransaction } from '@/lib/actions/Transactions';
+import { updateTransaction, createTransaction, deleteTransaction } from '@/lib/actions/mutateTransactions';
+import { getTotalProfitByMonth } from '@/lib/data/getTransactions';
 
 const TestFormPage = () => {
   const [error, setError] = useState<PostgrestError | null>(null);
@@ -12,10 +12,19 @@ const TestFormPage = () => {
   const [transactions, setTransactions] = useState<any[]>([]);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [editingTransaction, setEditingTransaction] = useState<any>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+  const [newTransaction, setNewTransaction] = useState<any>({
+    name: '',
+    amount: '',
+    date: '',
+    time: '',
+    type: ''
+  });
 
   useEffect(() => {
     fetchTransactions();
   }, []);
+
 
   const fetchTransactions = async () => {
     setLoading(true);
@@ -64,6 +73,47 @@ const TestFormPage = () => {
         setLoading(false);
         cancelEditing();
       }
+    }
+  };
+
+  const handleChangeNew = (e: React.ChangeEvent<HTMLInputElement>, field: string) => {
+    setNewTransaction({ ...newTransaction, [field]: e.target.value });
+  };
+
+  const createNewTransaction = async () => {
+    setLoading(true);
+    try {
+      const createdTransaction = await createTransaction(newTransaction);
+      setTransactions([...transactions, createdTransaction]);
+      setNewTransaction({
+        name: '',
+        amount: '',
+        date: '',
+        time: '',
+        type: ''
+      });
+      setError(null);
+      setIsDialogOpen(false);
+    } catch (err) {
+      console.error('Create transaction error:', err);
+      setError(err as PostgrestError);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const startDeleting = async (index: number) => {
+    setLoading(true);
+    try {
+      await deleteTransaction(transactions[index].id);
+      const newTransactions = transactions.filter((_, i) => i !== index);
+      setTransactions(newTransactions);
+      setError(null);
+    } catch (err) {
+      console.error('Delete transaction error:', err);
+      setError(err as PostgrestError);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -140,8 +190,9 @@ const TestFormPage = () => {
                   <td className="px-4 py-2">{transaction.date}</td>
                   <td className="px-4 py-2">{transaction.time}</td>
                   <td className="px-4 py-2">{transaction.type}</td>
-                  <td className="px-4 py-2">
-                    <button onClick={() => startEditing(index)} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">Edit</button>
+                  <td className="px-4 py-2 flex">
+                    <button onClick={() => startEditing(index)} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 mr-2">Edit</button>
+                    <button onClick={() => startDeleting(index)} className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700">Delete</button>
                   </td>
                 </>
               )}
@@ -149,9 +200,68 @@ const TestFormPage = () => {
           ))}
         </tbody>
       </table>
-      <button onClick={fetchTransactions} className="mt-4 px-4 py-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-700">
+      <button onClick={() => setIsDialogOpen(true)} className="mt-4 px-4 py-2 bg-green-500 text-white font-bold rounded hover:bg-green-700">
+        Add Transaction
+      </button>
+      <button onClick={fetchTransactions} className="mt-4 px-4 py-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-700 ml-2">
         Refresh Transactions
       </button>
+      {isDialogOpen && (
+        <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex justify-center items-center">
+          <div className="bg-white p-8 rounded-lg shadow-lg">
+            <h2 className="text-xl font-bold mb-4">Create Transaction</h2>
+            <div className="mb-4">
+              <input
+                type="text"
+                placeholder="Name"
+                value={newTransaction.name}
+                onChange={(e) => handleChangeNew(e, 'name')}
+                className="border p-2 rounded w-full"
+              />
+            </div>
+            <div className="mb-4">
+              <input
+                type="text"
+                placeholder="Amount"
+                value={newTransaction.amount}
+                onChange={(e) => handleChangeNew(e, 'amount')}
+                className="border p-2 rounded w-full"
+              />
+            </div>
+            <div className="mb-4">
+              <input
+                type="text"
+                placeholder="Date"
+                value={newTransaction.date}
+                onChange={(e) => handleChangeNew(e, 'date')}
+                className="border p-2 rounded w-full"
+              />
+            </div>
+            <div className="mb-4">
+              <input
+                type="text"
+                placeholder="Time"
+                value={newTransaction.time}
+                onChange={(e) => handleChangeNew(e, 'time')}
+                className="border p-2 rounded w-full"
+              />
+            </div>
+            <div className="mb-4">
+              <input
+                type="text"
+                placeholder="Type"
+                value={newTransaction.type}
+                onChange={(e) => handleChangeNew(e, 'type')}
+                className="border p-2 rounded w-full"
+              />
+            </div>
+            <div className="flex justify-end">
+              <button onClick={createNewTransaction} className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700 mr-2">Create</button>
+              <button onClick={() => setIsDialogOpen(false)} className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700">Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

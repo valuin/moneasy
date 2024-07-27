@@ -43,10 +43,10 @@ export function CashFlowChart({
     <Card>
       <CardHeader>
         <CardTitle>Cash Flow</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardDescription>January - December 2024</CardDescription>
       </CardHeader>
       <CardContent>
-        {/* <ChartContainer config={chartConfig}>
+        <ChartContainer config={chartConfig}>
           <BarChart
             accessibilityLayer
             data={chartData}
@@ -74,11 +74,11 @@ export function CashFlowChart({
               radius={4}
             />
           </BarChart>
-        </ChartContainer> */}
+        </ChartContainer>
       </CardContent>
       <CardFooter className="flex-col items-start gap-2 text-sm">
         <div className="leading-none text-muted-foreground">
-          Showing income and expenses for the last 6 months
+          Showing income and expenses from the last year
         </div>
       </CardFooter>
     </Card>
