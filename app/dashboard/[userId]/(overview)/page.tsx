@@ -1,6 +1,7 @@
 import OverviewContainer from '@/components/dashboard/overview-container';
 import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
+import { getTransactionsByMonth, getTotalProfitByMonth, getTotalIncomeByMonth, getTotalExpenseByMonth } from '@/lib/data/getTransactions';
 
 export default async function Page() {
   const supabase = createClient();
@@ -12,6 +13,7 @@ export default async function Page() {
   if (!user) {
     redirect('/login');
   }
+
 
   return (
     <>

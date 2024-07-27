@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { PostgrestError } from '@supabase/postgrest-js';
 import { getTransactions } from '@/lib/data/getTransactions';
 import { updateTransaction, createTransaction, deleteTransaction } from '@/lib/actions/mutateTransactions';
+import { getTotalProfitByMonth } from '@/lib/data/getTransactions';
 
 const TestFormPage = () => {
   const [error, setError] = useState<PostgrestError | null>(null);
@@ -23,6 +24,7 @@ const TestFormPage = () => {
   useEffect(() => {
     fetchTransactions();
   }, []);
+
 
   const fetchTransactions = async () => {
     setLoading(true);
