@@ -17,15 +17,6 @@ import {
   ChartTooltipContent,
 } from '@/components/ui/chart';
 
-const chartData = [
-  { month: 'January', income: 186, expenses: 80 },
-  { month: 'February', income: 305, expenses: 200 },
-  { month: 'March', income: 237, expenses: 120 },
-  { month: 'April', income: 73, expenses: 190 },
-  { month: 'May', income: 209, expenses: 130 },
-  { month: 'June', income: 214, expenses: 140 },
-];
-
 const chartConfig = {
   income: {
     label: 'Income',
@@ -37,7 +28,17 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function CashFlowChart() {
+type CashFlowChartProps = {
+  month: string;
+  income: number;
+  expenses: number;
+};
+
+export function CashFlowChart({
+  chartData,
+}: {
+  chartData: CashFlowChartProps[];
+}) {
   return (
     <Card>
       <CardHeader>
@@ -45,7 +46,7 @@ export function CashFlowChart() {
         <CardDescription>January - June 2024</CardDescription>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig}>
+        {/* <ChartContainer config={chartConfig}>
           <BarChart
             accessibilityLayer
             data={chartData}
@@ -73,7 +74,7 @@ export function CashFlowChart() {
               radius={4}
             />
           </BarChart>
-        </ChartContainer>
+        </ChartContainer> */}
       </CardContent>
       <CardFooter className="flex-col items-start gap-2 text-sm">
         <div className="leading-none text-muted-foreground">
