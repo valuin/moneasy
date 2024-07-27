@@ -1,11 +1,13 @@
-import ExpensesTable from '@/components/ui/dashboard/expenses-table';
-import { getTotalExpenseForTable } from '@/lib/data/getTransactions';
+import ProfitsTable from '@/components/ui/dashboard/profits-table';
+import { getTotalProfitByMonth } from '@/lib/data/getTransactions';
 import { ArrowLeftIcon } from 'lucide-react';
 import Link from 'next/link';
 
 export default async function Page({ params }: { params: { userId: string } }) {
   const userId = params.userId;
-  const expenses = await getTotalExpenseForTable();
+  const profits = await getTotalProfitByMonth();
+
+  console.log(profits);
 
   return (
     <>
@@ -17,11 +19,11 @@ export default async function Page({ params }: { params: { userId: string } }) {
           <ArrowLeftIcon />
         </Link>
         <div className="flex flex-col text-white">
-          <h1 className="text-2xl font-bold">Expenses</h1>
-          <p>Here's a list of your expenses!</p>
+          <h1 className="text-2xl font-bold">Profits</h1>
+          <p>Here's a list of your profits!</p>
         </div>
       </div>
-      <ExpensesTable expenses={expenses} />
+      <ProfitsTable profits={profits} />
     </>
   );
 }
