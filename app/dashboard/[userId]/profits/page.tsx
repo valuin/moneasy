@@ -1,4 +1,4 @@
-import ProfitsTable from '@/components/ui/dashboard/profits-table';
+import ProfitsTable from '@/components/ui/dashboard/tables/profits-table';
 import { getTotalProfitForTable } from '@/lib/data/getTransactions';
 import { ArrowLeftIcon } from 'lucide-react';
 import Link from 'next/link';
