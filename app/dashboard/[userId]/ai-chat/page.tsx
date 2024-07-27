@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Message, continueConversation } from '@/lib/actions/getAI';
 import { readStreamableValue } from 'ai/rsc';
 import { marked } from 'marked';
-import { Bot, SendHorizontalIcon, UserIcon, MessageCircleQuestion } from 'lucide-react';
+import { SendHorizontalIcon, UserIcon, MessageCircleQuestion, Sparkles } from 'lucide-react';
 
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30;
@@ -50,9 +50,11 @@ export default function Page() {
     const formattedContent = marked(message.content);
     const isUser = message.role === 'user';
     return (
-      <div key={index} className={`flex items-start p-4 rounded-lg ${isUser ? 'bg-white mb-5' : 'bg-emerald-500 mb-5'}`}>
-        {isUser ? <UserIcon className="mr-2 text-black" /> : <Bot className="mr-2 text-emerald-950" />}
-        <div dangerouslySetInnerHTML={{ __html: formattedContent }} />
+      <div key={index} className={`flex items-start p-2 mb-4 ${isUser ? 'justify-end' : 'justify-start'}`}>
+        <div className={`flex max-w-xl p-4 rounded-lg ${isUser ? 'bg-white text-black' : 'bg-emerald-500 text-black'}`}>
+          {isUser ? <UserIcon className="mr-2 flex-shrink-0" style={{ width: '24px', height: '24px' }} /> : <Sparkles className="mr-2 flex-shrink-0" />}
+          <div className="flex-grow" dangerouslySetInnerHTML={{ __html: formattedContent }} />
+        </div>
       </div>
     );
   };
@@ -85,12 +87,12 @@ export default function Page() {
         )}
       </div>
 
-      <div className="flex items-center p-4 sticky bottom-0 ">
+      <div className="flex items-center p-4 sticky bottom-0">
         <input
           type="text"
           value={input}
           onChange={(event) => setInput(event.target.value)}
-          className="flex-grow p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-200"
+          className="flex-grow p-2 border-2 border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-200"
           placeholder="Type your message..."
           onKeyDown={(event) => {
             if (event.key === 'Enter') {
