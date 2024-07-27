@@ -51,7 +51,7 @@ export default function Page() {
     const isUser = message.role === 'user';
     return (
       <div key={index} className={`flex items-start p-2 mb-4 ${isUser ? 'justify-end' : 'justify-start'}`}>
-        <div className={`flex max-w-xl p-4 rounded-lg ${isUser ? 'bg-white text-black' : 'bg-emerald-500 text-black'}`}>
+        <div className={`flex max-w-4xl p-4 rounded-lg ${isUser ? 'bg-white text-black' : 'bg-emerald-600 text-white'}`} style={{ lineHeight: '2' }}>
           {isUser ? <UserIcon className="mr-2 flex-shrink-0" style={{ width: '24px', height: '24px' }} /> : <Sparkles className="mr-2 flex-shrink-0" />}
           <div className="flex-grow" dangerouslySetInnerHTML={{ __html: formattedContent }} />
         </div>
