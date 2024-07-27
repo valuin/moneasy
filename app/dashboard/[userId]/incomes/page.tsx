@@ -21,7 +21,7 @@ export default async function Page({ params }: { params: { userId: string } }) {
           <p>Here's a list of your incomes!</p>
         </div>
       </div>
-      <IncomeTable incomes={incomes} />
+      <IncomeTable incomes={incomes.reverse()} />
     </>
   );
 }
