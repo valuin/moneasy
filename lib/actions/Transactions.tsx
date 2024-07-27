@@ -2,17 +2,18 @@
 
 import { createClient } from "@/utils/supabase/server";
 
-export default async function getTransactions() {
+export async function updateTransaction(id: string, data: any) {
   const supabase = createClient();
 
-  const { data, error } = await supabase
+  const { data: transaction, error } = await supabase
     .from("transactions")
-    .select("*");
+    .update(data)
+    .match({ id });
 
   if (error) {
     console.log(error);
     return error;
   }
 
-  return data;
+  return transaction;
 }

@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 export default function HeroSection() {
   return (
-    <div className="flex flex-col items-center mt-20">
+    <div className="flex flex-col items-center mt-60">
       <h1 className="text-6xl text-white text-center">
         Empower Your Decisions with <br />
         Insightful Analytics

@@ -19,7 +19,15 @@ export default async function Index() {
   const isSupabaseConnected = canInitSupabaseClient();
 
   return (
-    <div className="flex-1 w-full flex flex-col items-center bg-[url('/hero-picture.png')] bg-cover">
+    <div
+      className="flex-1 w-full flex flex-col items-center"
+      style={{
+        backgroundImage: "url('/hero-pic.png')",
+        backgroundSize: "100%", // Zoom in
+        backgroundPosition: "center top", // Indent upwards
+        backgroundRepeat: "no-repeat",
+      }}
+    >
       <nav className="w-full flex justify-center h-16">
         {/* <div className="w-full max-w-4xl flex justify-between items-center p-3 text-sm">
           <DeployButton />
