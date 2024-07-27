@@ -19,12 +19,14 @@ import {
 
 export default async function OverviewCards({
   transactions,
+  userId,
 }: {
   transactions: any;
+  userId: string;
 }) {
-  const totalIncomeByMonth = await getTotalIncomeByMonth();
-  const totalExpensesByMonth = await getTotalExpenseByMonth();
-  const totalProfitByMonth = await getTotalProfitByMonth();
+  const totalIncomeByMonth = await getTotalIncomeByMonth(userId);
+  const totalExpensesByMonth = await getTotalExpenseByMonth(userId);
+  const totalProfitByMonth = await getTotalProfitByMonth(userId);
 
   const totalIncome = totalIncomeByMonth.reduce((acc: number, data: any) => {
     return acc + data.income;

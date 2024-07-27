@@ -17,7 +17,7 @@ export default function SideNavLinks(user: { id: string }) {
 
   return (
     <Card>
-      <nav className='p-4'>
+      <nav className="p-4">
         <ul className="flex flex-col gap-2 text-zinc-500">
           <Link
             className={`flex gap-2 hover:bg-emerald-50 hover:text-emerald-700 rounded-lg p-2 ${
@@ -54,7 +54,7 @@ export default function SideNavLinks(user: { id: string }) {
           </Link>
           <Link
             className={`flex gap-2 ml-8 hover:bg-emerald-50 hover:text-emerald-700 rounded-lg p-2 ${
-              pathname === `/dashboard/${user?.id}/income`
+              pathname === `/dashboard/${user?.id}/incomes`
                 ? 'bg-emerald-50 text-emerald-700'
                 : ''
             }`}

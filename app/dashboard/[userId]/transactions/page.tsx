@@ -22,7 +22,7 @@ export default async function Page({ params }: { params: { userId: string } }) {
             <h1 className="text-2xl font-bold">Transactions</h1>
             <p>Here's a list of your transactions!</p>
           </div>
-          <CreateTransactionDialog />
+          <CreateTransactionDialog userId={userId} />
         </div>
       </div>
       <TransactionsTable transactions={transactions} />
