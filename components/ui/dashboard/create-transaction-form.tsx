@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { createTransaction } from '@/lib/actions/mutateTransactions';
 import { cn } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { DialogClose } from '@radix-ui/react-dialog';
@@ -21,7 +22,6 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { Calendar } from '../calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '../popover';
-import { createTransaction } from '@/lib/actions/mutateTransactions';
 
 const formSchema = z.object({
   type: z.string(),
@@ -50,16 +50,17 @@ export default function CreateTransactionForm() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    const formData = new FormData();
+    formData.append('type', values.type);
+    formData.append('name', values.name);
+    formData.append('amount', values.amount);
+    formData.append('date', values.date.toISOString());
+    formData.append('time', values.time);
 
-    // const formData = new FormData();
-    // formData.append('type', values.type);
-    // formData.append('name', values.name);
-    // formData.append('amount', values.amount);
-    // formData.append('date', format(values.date, 'yyyy-MM-dd'));
-    // formData.append('time', values.time);
+    await createTransaction(formData);
 
-    // await createTransaction(formData);
+    form.reset();
+    window.location.reload();
   }
 
   return (

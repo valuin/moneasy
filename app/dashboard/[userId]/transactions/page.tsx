@@ -1,4 +1,4 @@
-import { CreateTransactionDialog } from '@/components/ui/dashboard/create-transaction-dialog';
+import CreateTransactionDialog from '@/components/ui/dashboard/create-transaction-dialog';
 import TransactionsTable from '@/components/ui/dashboard/tables/transactions-table';
 import { getTransactions } from '@/lib/data/getTransactions';
 import { ArrowLeftIcon } from 'lucide-react';

@@ -11,7 +11,7 @@ import { PlusIcon } from 'lucide-react';
 
 import CreateTransactionForm from '@/components/ui/dashboard/create-transaction-form';
 
-export function CreateTransactionDialog() {
+export default function CreateTransactionDialog() {
   return (
     <Dialog>
       <DialogTrigger asChild>
