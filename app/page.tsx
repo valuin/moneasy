@@ -1,13 +1,11 @@
-import DeployButton from '../components/DeployButton';
-import AuthButton from '../components/AuthButton';
-import { createClient } from '@/utils/supabase/server';
-import HeroSection from '@/components/landing-page/hero-section';
-import Image from 'next/image';
+import AuthButton from "../components/AuthButton";
+import { createClient } from "@/utils/supabase/server";
+import HeroSection from "@/components/landing-page/hero-section";
+import BrandLogo from "@/components/BrandLogo";
+import Link from "next/link";
 
 export default async function Index() {
   const canInitSupabaseClient = () => {
-    // This function is just for the interactive tutorial.
-    // Feel free to remove it once you have Supabase connected.
     try {
       createClient();
       return true;
@@ -29,8 +27,21 @@ export default async function Index() {
       }}
     >
       <nav className="w-full flex justify-center h-16">
-        <div className="w-full max-w-4xl flex justify-between items-center p-3 text-sm">
-          <DeployButton />
+        <div className="w-full max-w-4xl flex justify-between items-center text-sm mt-8">
+          <div className="flex items-center">
+            <BrandLogo />
+            <ul className="flex space-x-4 font-semibold gradient-text ml-3">
+              <li>
+                <Link href="#home">Home</Link>
+              </li>
+              <li>
+                <Link href="#services">Services</Link>
+              </li>
+              <li>
+                <Link href="#contacts">Contacts</Link>
+              </li>
+            </ul>
+          </div>
           {isSupabaseConnected && <AuthButton />}
         </div>
       </nav>
