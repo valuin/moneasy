@@ -1,11 +1,18 @@
 import { CashFlowChart } from '@/components/ui/cash-flow-chart';
 import OverviewCards from '@/components/ui/dashboard/overview-cards';
-import { getTransactions, getTransactionsByMonth } from '@/lib/data/getTransactions';
+import {
+  getTransactions,
+  getTransactionsByMonth,
+} from '@/lib/data/getTransactions';
 import AIEvaluation from './ai-evaluation';
 
-export default async function OverviewContainer() {
-  const transactions = await getTransactions();
-  const transactionsByMonth = await getTransactionsByMonth();
+export default async function OverviewContainer({
+  userId,
+}: {
+  userId: string;
+}) {
+  const transactions = await getTransactions(userId);
+  const transactionsByMonth = await getTransactionsByMonth(userId);
 
   const date = new Date();
   const currentYear = date.getFullYear().toString();
@@ -33,7 +40,10 @@ export default async function OverviewContainer() {
   return (
     <div className="bg-white border rounded-lg p-8 flex flex-col gap-4">
       <CashFlowChart chartData={chartData.reverse()} />
-      <OverviewCards transactions={transactions} />
+      <OverviewCards
+        transactions={transactions}
+        userId={userId}
+      />
       <AIEvaluation />
     </div>
   );

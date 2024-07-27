@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 export default async function Page({ params }: { params: { userId: string } }) {
   const userId = params.userId;
-  const profits = await getTotalProfitForTable();
+  const profits = await getTotalProfitForTable(userId);
 
   return (
     <>
@@ -21,7 +21,7 @@ export default async function Page({ params }: { params: { userId: string } }) {
           <p>Here's a list of your profits!</p>
         </div>
       </div>
-      <ProfitsTable profits={profits} />
+      <ProfitsTable profits={profits.reverse()} />
     </>
   );
 }

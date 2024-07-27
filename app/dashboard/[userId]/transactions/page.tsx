@@ -1,4 +1,4 @@
-import { CreateTransactionDialog } from '@/components/ui/dashboard/create-transaction-dialog';
+import CreateTransactionDialog from '@/components/ui/dashboard/create-transaction-dialog';
 import TransactionsTable from '@/components/ui/dashboard/tables/transactions-table';
 import { getTransactions } from '@/lib/data/getTransactions';
 import { ArrowLeftIcon } from 'lucide-react';
@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 export default async function Page({ params }: { params: { userId: string } }) {
   const userId = params.userId;
-  const transactions = await getTransactions();
+  const transactions = await getTransactions(userId);
 
   return (
     <>
@@ -22,7 +22,7 @@ export default async function Page({ params }: { params: { userId: string } }) {
             <h1 className="text-2xl font-bold">Transactions</h1>
             <p>Here's a list of your transactions!</p>
           </div>
-          <CreateTransactionDialog />
+          <CreateTransactionDialog userId={userId} />
         </div>
       </div>
       <TransactionsTable transactions={transactions} />

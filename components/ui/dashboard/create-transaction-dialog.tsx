@@ -11,7 +11,11 @@ import { PlusIcon } from 'lucide-react';
 
 import CreateTransactionForm from '@/components/ui/dashboard/create-transaction-form';
 
-export function CreateTransactionDialog() {
+export default function CreateTransactionDialog({
+  userId,
+}: {
+  userId: string;
+}) {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -25,7 +29,7 @@ export function CreateTransactionDialog() {
           <DialogTitle>Add transaction</DialogTitle>
           <DialogDescription>Enter details below.</DialogDescription>
         </DialogHeader>
-        <CreateTransactionForm />
+        <CreateTransactionForm user_id={userId} />
       </DialogContent>
     </Dialog>
   );

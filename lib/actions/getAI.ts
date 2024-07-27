@@ -23,7 +23,7 @@ export async function fetchDataForSystemPrompt() {
     throw new Error('User not found');
   }
 
-  const { data, error } = await supabase.from('transactions').select('*');
+  const { data, error } = await supabase.from('transactions').select('*').eq('user_id', user.id);
 
   if (error) {
     throw new Error(error.message);

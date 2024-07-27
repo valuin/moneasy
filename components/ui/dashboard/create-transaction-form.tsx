@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { createTransaction } from '@/lib/actions/mutateTransactions';
 import { cn } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { DialogClose } from '@radix-ui/react-dialog';
@@ -21,9 +22,9 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { Calendar } from '../calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '../popover';
-import { createTransaction } from '@/lib/actions/mutateTransactions';
 
 const formSchema = z.object({
+  user_id: z.string(),
   type: z.string(),
   name: z.string().min(1, { message: 'Transaction name is required' }).max(100),
   amount: z
@@ -37,10 +38,15 @@ const formSchema = z.object({
     .max(8, { message: 'Transaction time is invalid' }),
 });
 
-export default function CreateTransactionForm() {
+export default function CreateTransactionForm({
+  user_id,
+}: {
+  user_id: string;
+}) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      user_id: user_id,
       type: 'Income',
       name: '',
       amount: '',
@@ -50,16 +56,18 @@ export default function CreateTransactionForm() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    const formData = new FormData();
+    formData.append('user_id', values.user_id);
+    formData.append('type', values.type);
+    formData.append('name', values.name);
+    formData.append('amount', values.amount);
+    formData.append('date', values.date.toISOString());
+    formData.append('time', values.time);
 
-    // const formData = new FormData();
-    // formData.append('type', values.type);
-    // formData.append('name', values.name);
-    // formData.append('amount', values.amount);
-    // formData.append('date', format(values.date, 'yyyy-MM-dd'));
-    // formData.append('time', values.time);
+    await createTransaction(formData);
 
-    // await createTransaction(formData);
+    form.reset();
+    window.location.reload();
   }
 
   return (

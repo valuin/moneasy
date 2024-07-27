@@ -23,14 +23,12 @@ export default async function SideNav() {
 
     const supabase = createClient();
     await supabase.auth.signOut();
-    return redirect('/login');
+    return redirect('/');
   };
 
   return (
     <>
-      <div>
-        <BrandLogo />
-      </div>
+      <BrandLogo />
       <div className="flex flex-col justify-between w-3/4">
         <div className="flex flex-col gap-4 mb-20">
           <Card>
