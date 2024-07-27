@@ -3,6 +3,7 @@ import AuthButton from '@/components/AuthButton';
 import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
 import { getTotalProfitForTable } from '@/lib/data/getTransactions';
+import { fetchDataForSystemPrompt } from '@/lib/actions/getAI';
 
 export default async function ProtectedPage() {
   const supabase = createClient();
@@ -15,8 +16,8 @@ export default async function ProtectedPage() {
     return redirect('/login');
   }
 
-  const totalProfit = await getTotalProfitForTable();
-  console.log(totalProfit);
+  // const totalProfit = await fetchDataForSystemPrompt();
+  // console.log(totalProfit);
 
   return (
     <div className="flex-1 w-full flex flex-col gap-20 items-center">
