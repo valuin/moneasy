@@ -2,6 +2,7 @@ import DeployButton from '@/components/DeployButton';
 import AuthButton from '@/components/AuthButton';
 import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
+import { getTotalProfitForTable } from '@/lib/data/getTransactions';
 
 export default async function ProtectedPage() {
   const supabase = createClient();
@@ -13,6 +14,9 @@ export default async function ProtectedPage() {
   if (!user) {
     return redirect('/login');
   }
+
+  const totalProfit = await getTotalProfitForTable();
+  console.log(totalProfit);
 
   return (
     <div className="flex-1 w-full flex flex-col gap-20 items-center">
