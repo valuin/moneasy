@@ -15,7 +15,7 @@ export default function AIEvaluation() {
       try {
         const data = await fetchDataForSystemPrompt();
         const dataPrompt = JSON.stringify(data, null, 2);
-        const { text } = await getAnswer(`please make my financial evaluation for 3 months based on my data: ${dataPrompt}`);
+        const { text } = await getAnswer(`Make a simple yet concise financial evaluation of health and optimality for 3 months based on my financial business data, keep in mind that the currency is in IDR, and the data is given in this format: ${dataPrompt}`);
         const markedText = await marked(text); // Await the result of marked
         setAnswer(markedText);
       } catch (error) {

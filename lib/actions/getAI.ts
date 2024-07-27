@@ -32,6 +32,16 @@ export async function fetchDataForSystemPrompt() {
   return data;
 }
 
+export async function getAnswer(message: string) {
+  const { text, finishReason, usage } = await generateText({
+    model: openai('gpt-4o-mini'),
+    system: 'You are a data analyst and financial advisor for a small business owner, you are both fluent in indonesian and english, you are going to talk to the user as if the user is not a technical person therefore the answer should be concise and easy to understand by a middle aged person with no technical background that wants to optimize their business. and you are also going to acknowledge the user data and the business data given in this data.',
+    prompt: message,
+  });
+
+  return { text, finishReason, usage };
+}
+
 export async function continueConversation(history: Message[]) {
   const stream = createStreamableValue();
 
