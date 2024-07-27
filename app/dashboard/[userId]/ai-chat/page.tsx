@@ -1,10 +1,9 @@
 'use client';
-
 import { useState } from 'react';
 import { Message, continueConversation } from '@/lib/actions/getAI';
 import { readStreamableValue } from 'ai/rsc';
 import { marked } from 'marked';
-import { Bot, SendHorizontalIcon, UserIcon } from 'lucide-react';
+import { SendHorizontalIcon, UserIcon, MessageCircleQuestion, Sparkles } from 'lucide-react';
 
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30;
@@ -13,12 +12,10 @@ export default function Page() {
   const [conversation, setConversation] = useState<Message[]>([]);
   const [input, setInput] = useState<string>('');
   const [hasConversationStarted, setHasConversationStarted] = useState<boolean>(false);
-  const [generation, setGeneration] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSendMessage = async () => {
+  const handleSendMessage = async (messageContent: string) => {
     // Append the user's message to the conversation
-    const newConversation = [...conversation, { role: 'user', content: input }];
+    const newConversation: Message[] = [...conversation, { role: 'user', content: messageContent }];
     setConversation(newConversation);
 
     // Clear the input field
@@ -53,49 +50,60 @@ export default function Page() {
     const formattedContent = marked(message.content);
     const isUser = message.role === 'user';
     return (
-      <div key={index} className={`flex items-start p-2 rounded-lg ${isUser ? 'bg-white' : 'bg-emerald-500'}`}>
-        {isUser ? <UserIcon className="mr-2 text-black" /> : <Bot className="mr-2 text-emerald-950" />}
-        <div dangerouslySetInnerHTML={{ __html: formattedContent }} />
+      <div key={index} className={`flex items-start p-2 mb-4 ${isUser ? 'justify-end' : 'justify-start'}`}>
+        <div className={`flex max-w-4xl p-4 rounded-lg ${isUser ? 'bg-white text-black' : 'bg-emerald-600 text-white'}`} style={{ lineHeight: '2' }}>
+          {isUser ? <UserIcon className="mr-2 flex-shrink-0" style={{ width: '24px', height: '24px' }} /> : <Sparkles className="mr-2 flex-shrink-0" />}
+          <div className="flex-grow" dangerouslySetInnerHTML={{ __html: formattedContent }} />
+        </div>
       </div>
     );
   };
 
-  return (
-    <div className="flex flex-col justify-center h-full">
-      <div className="w-full rounded-lg h-5/6">
-        <div className="mb-4 space-y-2 overflow-auto h-full">
-          {conversation.map((message, index) => renderMessage(message, index))}
-          {!hasConversationStarted && (
-            <div>
-              <h1 className="text-6xl text-white mb-4">
-                Hello! <br />
-                Need assistance with your business <br /> analysis? I'm here to help!
-              </h1>
-              <button onClick={() => setHasConversationStarted(true)} className="px-4 py-2 font-bold text-white bg-blue-500 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
-                Generate
-              </button>
-            </div>
-          )}
-        </div>
+  const predefinedMessages = [
+    'What are the current trends and growth opportunities in our industry, and how do our products/services align with these trends?',
+    'Can you analyze the market share of our competitors and suggest strategies to improve our position?',
+    'What are the most significant challenges facing our business, and how can we address them?',
+  ];
 
-        <div className="relative flex items-center">
-          <input
-            type="text"
-            value={input}
-            onChange={(event) => setInput(event.target.value)}
-            className="flex-grow p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-200"
-            placeholder="Type your message..."
-            onKeyDown={(event) => {
-              if (event.key === 'Enter') {
-                handleSendMessage();
-              }
-            }}
-          />
-          <button onClick={handleSendMessage} className="absolute right-2 px-4 py-2 font-bold text-white">
-            <SendHorizontalIcon className="text-black" />
-          </button>
-        </div>
+  return (
+    <>
+      <div className="w-full flex-grow overflow-auto p-4" style={{ maxHeight: 'calc(100% - 64px)' }}>
+        {conversation.map((message, index) => renderMessage(message, index))}
+        {!hasConversationStarted && (
+          <div>
+            <h1 className="text-6xl text-white mb-10">
+              Hello! <br />
+              Need assistance with your business <br /> analysis? I'm here to help!
+            </h1>
+            <div className="flex flex-row justify-between w-full gap-2">
+              {predefinedMessages.map((message, index) => (
+                <button key={index} onClick={() => handleSendMessage(message)} className="p-3 w-5/6 h-40 max-h-15 font-bold text-neutral-700 bg-white rounded-lg hover:bg-slate-200 text-start ">
+                  <MessageCircleQuestion className="text-yellow-500" />
+                  <p className="mt-2">{message}</p>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
-    </div>
+
+      <div className="flex items-center p-4 sticky bottom-0">
+        <input
+          type="text"
+          value={input}
+          onChange={(event) => setInput(event.target.value)}
+          className="flex-grow p-2 border-2 border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-200"
+          placeholder="Type your message..."
+          onKeyDown={(event) => {
+            if (event.key === 'Enter') {
+              handleSendMessage(input);
+            }
+          }}
+        />
+        <button onClick={() => handleSendMessage(input)} className="absolute right-2 px-4 py-2 font-bold text-white">
+          <SendHorizontalIcon className="text-black" />
+        </button>
+      </div>
+    </>
   );
 }
