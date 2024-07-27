@@ -4,7 +4,7 @@ import { streamText } from 'ai';
 import { openai } from '@ai-sdk/openai';
 import { createStreamableValue } from 'ai/rsc';
 import { createClient } from '@/utils/supabase/server';
-
+import { generateText } from 'ai';
 export interface Message {
   role: 'user' | 'assistant';
   content: string;
@@ -33,8 +33,6 @@ export async function fetchDataForSystemPrompt() {
 }
 
 export async function continueConversation(history: Message[]) {
-  'use server';
-
   const stream = createStreamableValue();
 
   const data = await fetchDataForSystemPrompt();
