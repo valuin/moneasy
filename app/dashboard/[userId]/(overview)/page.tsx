@@ -101,7 +101,7 @@ export default async function Page() {
           Hi, {user?.email?.split('@')[0]}! Here's Your Sales Data
         </h1>
       </div>
-      <OverviewContainer />
+      <OverviewContainer userId={user.id} />
     </>
   );
 }

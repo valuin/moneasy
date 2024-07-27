@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 export default async function Page({ params }: { params: { userId: string } }) {
   const userId = params.userId;
-  const expenses = await getTotalExpenseForTable();
+  const expenses = await getTotalExpenseForTable(userId);
 
   return (
     <>

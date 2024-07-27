@@ -2,12 +2,11 @@
 
 import { createClient } from '@/utils/supabase/server';
 import { format } from 'date-fns';
-import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 
 const TransactionSchema = z.object({
   id: z.string(),
-  userId : z.string(),
+  user_id: z.string(),
   type: z.string(),
   name: z.string(),
   amount: z.number(),
@@ -17,11 +16,11 @@ const TransactionSchema = z.object({
 
 const CreateTransaction = TransactionSchema.omit({ id: true });
 
-export async function createTransaction(formData: FormData, userId: string) {
+export async function createTransaction(formData: FormData) {
   const supabase = createClient();
 
   const validatedFields = CreateTransaction.safeParse({
-    userId,
+    user_id: formData.get('user_id'),
     name: formData.get('name'),
     type: formData.get('type'),
     amount: Number(formData.get('amount')),
@@ -36,12 +35,12 @@ export async function createTransaction(formData: FormData, userId: string) {
     };
   }
 
-  const { name, type, amount, date, time } = validatedFields.data;
+  const { user_id, name, type, amount, date, time } = validatedFields.data;
 
   try {
     const { error } = await supabase.from('transactions').insert([
       {
-        userId,
+        user_id,
         name,
         type,
         amount,
@@ -53,7 +52,6 @@ export async function createTransaction(formData: FormData, userId: string) {
     if (error) {
       throw error;
     }
-
   } catch (error) {
     console.error('Failed to Create Transaction:', error);
     return {

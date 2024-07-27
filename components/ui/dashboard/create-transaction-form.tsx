@@ -24,6 +24,7 @@ import { Calendar } from '../calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '../popover';
 
 const formSchema = z.object({
+  user_id: z.string(),
   type: z.string(),
   name: z.string().min(1, { message: 'Transaction name is required' }).max(100),
   amount: z
@@ -37,10 +38,15 @@ const formSchema = z.object({
     .max(8, { message: 'Transaction time is invalid' }),
 });
 
-export default function CreateTransactionForm({ userId }: { userId: string }) {
+export default function CreateTransactionForm({
+  user_id,
+}: {
+  user_id: string;
+}) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      user_id: user_id,
       type: 'Income',
       name: '',
       amount: '',
@@ -51,13 +57,14 @@ export default function CreateTransactionForm({ userId }: { userId: string }) {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const formData = new FormData();
+    formData.append('user_id', values.user_id);
     formData.append('type', values.type);
     formData.append('name', values.name);
     formData.append('amount', values.amount);
     formData.append('date', values.date.toISOString());
     formData.append('time', values.time);
 
-    await createTransaction(formData, userId);
+    await createTransaction(formData);
 
     form.reset();
     window.location.reload();
