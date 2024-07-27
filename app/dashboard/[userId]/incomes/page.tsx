@@ -1,4 +1,4 @@
-import IncomeTable from '@/components/ui/dashboard/incomes-table';
+import IncomeTable from '@/components/ui/dashboard/tables/incomes-table';
 import { getTotalIncomeForTable } from '@/lib/data/getTransactions';
 import { ArrowLeftIcon } from 'lucide-react';
 import Link from 'next/link';
@@ -21,7 +21,7 @@ export default async function Page({ params }: { params: { userId: string } }) {
           <p>Here's a list of your incomes!</p>
         </div>
       </div>
-      <IncomeTable incomes={incomes} />
+      <IncomeTable incomes={incomes.reverse()} />
     </>
   );
 }

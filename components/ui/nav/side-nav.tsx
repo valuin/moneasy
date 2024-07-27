@@ -28,9 +28,7 @@ export default async function SideNav() {
 
   return (
     <>
-      <div>
-        <BrandLogo />
-      </div>
+      <BrandLogo />
       <div className="flex flex-col justify-between w-3/4">
         <div className="flex flex-col gap-4 mb-20">
           <Card>
