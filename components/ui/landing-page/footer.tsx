@@ -6,7 +6,7 @@ import FooterLogo from '@/components/FooterLogo';
 export default function Footer() {
   return (
     <>
-      <div className="grid grid-cols-4 justify-items-center items-center bg-emerald-800 w-full h-56">
+      <div className="grid grid-cols-4 justify-items-center items-center bg-emerald-800 w-full h-56" id="contacts">   
         <div className="flex flex-col text-white items-center justify-center">
           <FooterLogo />
         </div>

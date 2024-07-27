@@ -21,7 +21,7 @@ const services = [
 
 export default function Services() {
   return (
-    <section className="my-16 text-center">
+    <section className="my-16 text-center" id="services">
       <div className="flex justify-center items-center mb-4">
         <h2 className="text-white text-4xl md:text-5xl font-bold mb-6">
           Our Services
