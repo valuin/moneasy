@@ -2,7 +2,7 @@
 
 import { createClient } from "@/utils/supabase/server";
 
-export async function createTransaction(data: any) {
+export async function createTransaction(data: FormData) {
   const supabase = createClient();
 
   const { data: transaction, error } = await supabase

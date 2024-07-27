@@ -1,4 +1,4 @@
-import ExpensesTable from '@/components/ui/dashboard/expenses-table';
+import ExpensesTable from '@/components/ui/dashboard/tables/expenses-table';
 import { getTotalExpenseForTable } from '@/lib/data/getTransactions';
 import { ArrowLeftIcon } from 'lucide-react';
 import Link from 'next/link';

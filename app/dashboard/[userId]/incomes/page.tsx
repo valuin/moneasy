@@ -1,4 +1,4 @@
-import IncomeTable from '@/components/ui/dashboard/incomes-table';
+import IncomeTable from '@/components/ui/dashboard/tables/incomes-table';
 import { getTotalIncomeForTable } from '@/lib/data/getTransactions';
 import { ArrowLeftIcon } from 'lucide-react';
 import Link from 'next/link';

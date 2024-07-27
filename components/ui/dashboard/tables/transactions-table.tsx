@@ -20,7 +20,7 @@ export default function TransactionsTable({
             <TableCell>Date</TableCell>
             <TableCell>Time</TableCell>
             <TableCell>Name</TableCell>
-            <TableCell>Price</TableCell>
+            <TableCell>Amount</TableCell>
             <TableCell>Type</TableCell>
           </TableRow>
         </TableHeader>
