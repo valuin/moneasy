@@ -1,7 +1,8 @@
-import DeployButton from "../components/DeployButton";
-import AuthButton from "../components/AuthButton";
-import { createClient } from "@/utils/supabase/server";
-import Header from "@/components/Header";
+import DeployButton from '../components/DeployButton';
+import AuthButton from '../components/AuthButton';
+import { createClient } from '@/utils/supabase/server';
+import HeroSection from '@/components/landing-page/hero-section';
+import Image from 'next/image';
 
 export default async function Index() {
   const canInitSupabaseClient = () => {
@@ -18,20 +19,17 @@ export default async function Index() {
   const isSupabaseConnected = canInitSupabaseClient();
 
   return (
-    <div className="flex-1 w-full flex flex-col gap-20 items-center">
-      <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
-        <div className="w-full max-w-4xl flex justify-between items-center p-3 text-sm">
+    <div className="flex-1 w-full flex flex-col items-center bg-[url('/hero-picture.png')] bg-cover">
+      <nav className="w-full flex justify-center h-16">
+        {/* <div className="w-full max-w-4xl flex justify-between items-center p-3 text-sm">
           <DeployButton />
           {isSupabaseConnected && <AuthButton />}
-        </div>
+        </div> */}
       </nav>
-
-      <div className="flex-1 flex flex-col gap-20 max-w-4xl px-3">
-        <Header />
-        <main className="flex-1 flex flex-col gap-6">
-        </main>
-      </div>
-
+      <HeroSection />
+      {/* <div className="flex-1 flex flex-col w-full items-center bg-emerald-500 ">
+        
+      </div> */}
     </div>
   );
 }
