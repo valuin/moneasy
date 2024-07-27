@@ -1,10 +1,12 @@
-import AuthButton from "../components/AuthButton";
-import { createClient } from "@/utils/supabase/server";
-import HeroSection from "@/components/ui/landing-page/hero-section";
-import Services from "@/components/ui/landing-page/services";
-import BrandLogo from "@/components/BrandLogo";
-import Link from "next/link";
-import Head from "next/head";
+
+import AuthButton from '../components/AuthButton';
+import { createClient } from '@/utils/supabase/server';
+import HeroSection from '@/components/ui/landing-page/hero-section';
+import Services from '@/components/ui/landing-page/services';
+import Head from 'next/head';
+import BrandLogo from '@/components/BrandLogo';
+import Link from 'next/link';
+import Footer from '@/components/ui/landing-page/footer';
 
 export default async function Index() {
   const isSupabaseConnected = await createClient();
@@ -43,6 +45,7 @@ export default async function Index() {
         </nav>
         <HeroSection />
         <Services />
+        <Footer />
       </div>
     </>
   );
