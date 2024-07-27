@@ -10,7 +10,7 @@ export default async function Layout({
       <div className="w-1/4 min-h-screen px-2 py-8 flex flex-col items-center gap-8">
         <SideNav />
       </div>
-      <div className="w-3/4 min-h-screen p-12 bg-emerald-500">{children}</div>
+      <div className="w-3/4 min-h-screen p-12 bg-emerald-600 flex flex-col gap-8">{children}</div>
     </div>
   );
 }
