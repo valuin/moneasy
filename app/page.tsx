@@ -1,7 +1,7 @@
 import DeployButton from '../components/DeployButton';
 import AuthButton from '../components/AuthButton';
 import { createClient } from '@/utils/supabase/server';
-import HeroSection from '@/components/landing-page/hero-section';
+import HeroSection from '@/components/ui/landing-page/hero-section';
 import Image from 'next/image';
 
 export default async function Index() {
@@ -23,9 +23,9 @@ export default async function Index() {
       className="flex-1 w-full flex flex-col items-center"
       style={{
         backgroundImage: "url('/hero-pic.png')",
-        backgroundSize: "100%", // Zoom in
-        backgroundPosition: "center top", // Indent upwards
-        backgroundRepeat: "no-repeat",
+        backgroundSize: '100%', // Zoom in
+        backgroundPosition: 'center top', // Indent upwards
+        backgroundRepeat: 'no-repeat',
       }}
     >
       <nav className="w-full flex justify-center h-16">

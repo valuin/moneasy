@@ -1,13 +1,11 @@
 'use server';
 
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from '@/utils/supabase/server';
 
-export async function getTransactions() {
+export async function getTransactions(): Promise<any> {
   const supabase = createClient();
 
-  const { data, error } = await supabase
-    .from("transactions")
-    .select("*");
+  const { data, error } = await supabase.from('transactions').select('*');
 
   if (error) {
     console.log(error);
@@ -17,12 +15,10 @@ export async function getTransactions() {
   return data;
 }
 
-export async function getTransactionsByMonth() {
+export async function getTransactionsByMonth(): Promise<any> {
   const supabase = createClient();
 
-  const { data, error } = await supabase
-    .from('transactions')
-    .select('*');
+  const { data, error } = await supabase.from('transactions').select('*');
 
   if (error) {
     console.log(error);
@@ -47,10 +43,43 @@ export async function getTransactionsByMonth() {
     categorizedTransactions[year][month].push(transaction);
   });
 
-  return JSON.stringify(categorizedTransactions) 
+  const transactionsArray: any[] = [];
+
+  for (const year in categorizedTransactions) {
+    for (const month in categorizedTransactions[year]) {
+      transactionsArray.push({
+        year: year,
+        month: month,
+        transactions: categorizedTransactions[year][month],
+      });
+    }
+  }
+
+  transactionsArray.sort((a, b) => {
+    if (a.year !== b.year) {
+      return b.year - a.year;
+    }
+    const months = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ];
+    return months.indexOf(b.month) - months.indexOf(a.month);
+  });
+
+  return transactionsArray;
 }
 
-export async function getTotalProfitByMonth() {
+export async function getTotalProfitByMonth(): Promise<any> {
   const supabase = createClient();
 
   const { data, error } = await supabase.from('transactions').select('*');
@@ -79,10 +108,19 @@ export async function getTotalProfitByMonth() {
     }
   });
 
-  return categorizedTransactions;
+  const totalProfitArray: any[] = [];
+
+  for (const key in categorizedTransactions) {
+    totalProfitArray.push({
+      month: key,
+      profit: categorizedTransactions[key],
+    });
+  }
+
+  return totalProfitArray;
 }
 
-export async function getTotalIncomeByMonth() {
+export async function getTotalIncomeByMonth(): Promise<any> {
   const supabase = createClient();
 
   const { data, error } = await supabase.from('transactions').select('*');
@@ -109,10 +147,19 @@ export async function getTotalIncomeByMonth() {
     }
   });
 
-  return categorizedTransactions;
+  const totalIncomeArray: any[] = [];
+
+  for (const key in categorizedTransactions) {
+    totalIncomeArray.push({
+      month: key,
+      income: categorizedTransactions[key],
+    });
+  }
+
+  return totalIncomeArray;
 }
 
-export async function getTotalExpenseByMonth() {
+export async function getTotalExpenseByMonth(): Promise<any> {
   const supabase = createClient();
 
   const { data, error } = await supabase.from('transactions').select('*');
@@ -139,5 +186,14 @@ export async function getTotalExpenseByMonth() {
     }
   });
 
-  return categorizedTransactions;
+  const totalExpenseArray: any[] = [];
+
+  for (const key in categorizedTransactions) {
+    totalExpenseArray.push({
+      month: key,
+      expenses: categorizedTransactions[key],
+    });
+  }
+
+  return totalExpenseArray;
 }
