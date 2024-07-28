@@ -11,15 +11,15 @@ import { redirect } from "next/navigation";
 export default async function Index() {
   const isSupabaseConnected = await createClient();
 
-  // const supabase = createClient();
+  const supabase = createClient();
 
-  // const {
-  //   data: { user },
-  // } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-  // if (user) {
-  //   redirect(`/dashboard/${user.id}`);
-  // }
+  if (user) {
+    redirect(`/dashboard/${user.id}`);
+  }
 
   return (
     <>
@@ -42,13 +42,17 @@ export default async function Index() {
               <ul className="flex space-x-4 text-base font-semibold gradient-text ml-12 scroll-smooth">
                 <li className="relative group">
                   <Link href="/#services" passHref>
-                    <span className="hover:no-underline gradient-text">Services</span>
+                    <span className="hover:no-underline gradient-text">
+                      Services
+                    </span>
                   </Link>
                   <span className="absolute left-0 bottom-0 w-full h-0.5 bg-gradient-to-r from-emerald-500 to-emerald-950 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
                 </li>
                 <li className="relative group">
                   <Link href="/#contacts" passHref>
-                    <span className="hover:no-underline gradient-text">Contacts</span>
+                    <span className="hover:no-underline gradient-text">
+                      Contacts
+                    </span>
                   </Link>
                   <span className="absolute left-0 bottom-0 w-full h-0.5 bg-gradient-to-r from-emerald-500 to-emerald-950 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
                 </li>

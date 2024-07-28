@@ -10,7 +10,7 @@ const plusJakartaSans = localFont({
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
-  title: 'BijakUang',
+  title: 'Moneasy',
   description: 'Allowing you to talk to your money.',
 };
 
