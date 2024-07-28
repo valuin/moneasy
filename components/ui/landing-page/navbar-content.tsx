@@ -44,7 +44,7 @@ export default function NavbarContent() {
             padding: `${0.75 + scrollProgress * 0.25}rem ${1 + scrollProgress * 2}rem`,
           }}
         >
-          <div className="flex items-center justify-center w-full">
+          <div className="flex items-center justify-between w-full px-12">
             <BrandLogo />
             <ul className="hidden md:flex space-x-4 text-base font-semibold text-emerald-500 text-shadow-glow ml-12">
               <li className="relative group">

@@ -26,7 +26,7 @@ export default async function Index() {
         <link rel="preload" href="/WaveBg.png" as="image" />
       </Head>
       <div
-        className="w-full w-max-content flex flex-col items-center bg-emerald-950 scroll-smooth"
+        className="w-full w-max-content flex flex-col items-center bg-emerald-950 scroll-smooth overflow-x-hidden"
         style={{
           backgroundImage: "url('/WaveBg.png')",
           backgroundSize: "100%",

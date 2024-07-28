@@ -16,7 +16,7 @@ export default function HeroSection() {
       </p>
       <Link href="/auth/login" passHref>
         <Button className="mt-10 px-12 min-w-16 bg-emerald-600 text-black hover:bg-emerald-200 hover:scale-105 shadow-xl hover:shadow-emerald-500/50 transition duration-200">
-          Try Now
+          Login To Try Now
         </Button>
       </Link>
       <Image
