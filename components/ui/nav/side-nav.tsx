@@ -15,7 +15,7 @@ export default async function SideNav() {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect('/login');
+    redirect('/auth/login');
   }
 
   const signOut = async () => {
