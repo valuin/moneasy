@@ -61,13 +61,40 @@ export async function createTransaction(formData: FormData) {
   }
 }
 
-export async function updateTransaction(id: string, data: any) {
+const UpdateTransaction = TransactionSchema.omit({ id: true });
+
+export async function updateTransaction(id: string, formData: FormData) {
   const supabase = createClient();
+
+  const validatedFields = UpdateTransaction.safeParse({
+    user_id: formData.get('user_id'),
+    name: formData.get('name'),
+    type: formData.get('type'),
+    amount: Number(formData.get('amount')),
+    date: new Date(formData.get('date') as string),
+    time: formData.get('time'),
+  });
+
+  if (!validatedFields.success) {
+    return {
+      error: validatedFields.error.errors,
+      message: 'Failed to Update Transaction',
+    };
+  }
+
+  const { user_id, name, type, amount, date, time } = validatedFields.data;
 
   const { data: transaction, error } = await supabase
     .from('transactions')
-    .update(data)
-    .match({ id });
+    .update({
+      user_id,
+      name,
+      type,
+      amount,
+      date: format(date, 'yyyy-MM-dd'),
+      time,
+    })
+    .eq('id', id);
 
   if (error) {
     console.log(error);
