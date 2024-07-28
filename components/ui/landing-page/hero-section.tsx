@@ -7,7 +7,7 @@ import Image from "next/image";
 export default function HeroSection() {
   return (
     <div className="flex flex-col items-center mt-52">
-      <h1 className="text-6xl text-white text-center font-bold leading-snug">
+      <h1 className="text-2xl md:text-4xl lg:text-6xl text-white text-center font-bold leading-snug">
         Making Businesses <br />
         As Easy As Talking To A Person
       </h1>
@@ -22,7 +22,7 @@ export default function HeroSection() {
       <Image
         src="/DashboardMoney.png"
         alt="Dashboard"
-        className="mt-12"
+        className="mt-12 px-8"
         width={720}
         height={356}
       />
