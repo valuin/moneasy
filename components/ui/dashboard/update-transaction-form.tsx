@@ -18,6 +18,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { DialogClose } from '@radix-ui/react-dialog';
 import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
+import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { Calendar } from '../calendar';
@@ -45,6 +46,8 @@ export default function UpdateTransactionForm({
   user_id: string;
   transaction: any;
 }) {
+  const [isPending, startTransition] = useTransition();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -63,10 +66,15 @@ export default function UpdateTransactionForm({
     formData.append('date', values.date.toISOString());
     formData.append('time', values.time);
 
-    await updateTransaction(transaction.id, formData);
-
-    // form.reset();
-    // window.location.reload();
+    try {
+      startTransition(async () => {
+        await updateTransaction(transaction.id, formData);
+        form.reset();
+        window.location.reload();
+      });
+    } catch (error) {
+      console.error('Failed to update transaction:', error);
+    }
   }
 
   return (
@@ -85,6 +93,7 @@ export default function UpdateTransactionForm({
                 <RadioGroup
                   defaultValue={field.value}
                   onValueChange={field.onChange}
+                  disabled={isPending}
                   className="flex flex-row gap-4"
                 >
                   <FormItem className="flex gap-2 items-end">
@@ -119,6 +128,7 @@ export default function UpdateTransactionForm({
               <FormControl>
                 <Input
                   placeholder={transaction.name}
+                  disabled={isPending}
                   {...field}
                 />
               </FormControl>
@@ -135,6 +145,7 @@ export default function UpdateTransactionForm({
               <FormControl>
                 <Input
                   placeholder={transaction.amount}
+                  disabled={isPending}
                   {...field}
                 />
               </FormControl>
@@ -153,6 +164,7 @@ export default function UpdateTransactionForm({
                   <FormControl>
                     <Button
                       variant={'outline'}
+                      disabled={isPending}
                       className={cn(
                         'w-full pl-3 text-left font-normal',
                         !field.value && 'text-muted-foreground'
@@ -194,6 +206,7 @@ export default function UpdateTransactionForm({
               <FormControl>
                 <Input
                   placeholder={transaction.time}
+                  disabled={isPending}
                   {...field}
                 />
               </FormControl>
@@ -204,6 +217,7 @@ export default function UpdateTransactionForm({
         <DialogFooter>
           <Button
             type="submit"
+            disabled={isPending}
             className="bg-emerald-700 hover:bg-emerald-800"
           >
             Submit

@@ -18,6 +18,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { DialogClose } from '@radix-ui/react-dialog';
 import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
+import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { Calendar } from '../calendar';
@@ -43,6 +44,8 @@ export default function CreateTransactionForm({
 }: {
   user_id: string;
 }) {
+  const [isPending, startTransition] = useTransition();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -64,10 +67,15 @@ export default function CreateTransactionForm({
     formData.append('date', values.date.toISOString());
     formData.append('time', values.time);
 
-    await createTransaction(formData);
-
-    form.reset();
-    window.location.reload();
+    try {
+      startTransition(async () => {
+        await createTransaction(formData);
+        form.reset();
+        window.location.reload();
+      });
+    } catch (error) {
+      console.error('Failed to create transaction:', error);
+    }
   }
 
   return (
@@ -86,6 +94,7 @@ export default function CreateTransactionForm({
                 <RadioGroup
                   defaultValue={field.value}
                   onValueChange={field.onChange}
+                  disabled={isPending}
                   className="flex flex-row gap-4"
                 >
                   <FormItem className="flex gap-2 items-end">
@@ -120,6 +129,7 @@ export default function CreateTransactionForm({
               <FormControl>
                 <Input
                   placeholder="Input transaction name"
+                  disabled={isPending}
                   {...field}
                 />
               </FormControl>
@@ -136,6 +146,7 @@ export default function CreateTransactionForm({
               <FormControl>
                 <Input
                   placeholder="Input transaction amount (IDR)"
+                  disabled={isPending}
                   {...field}
                 />
               </FormControl>
@@ -154,6 +165,7 @@ export default function CreateTransactionForm({
                   <FormControl>
                     <Button
                       variant={'outline'}
+                      disabled={isPending}
                       className={cn(
                         'w-full pl-3 text-left font-normal',
                         !field.value && 'text-muted-foreground'
@@ -195,6 +207,7 @@ export default function CreateTransactionForm({
               <FormControl>
                 <Input
                   placeholder="Input transaction time (HH:MM:SS)"
+                  disabled={isPending}
                   {...field}
                 />
               </FormControl>
@@ -205,6 +218,7 @@ export default function CreateTransactionForm({
         <DialogFooter>
           <Button
             type="submit"
+            disabled={isPending}
             className="bg-emerald-700 hover:bg-emerald-800"
           >
             Submit
