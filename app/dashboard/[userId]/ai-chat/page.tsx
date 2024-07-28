@@ -4,6 +4,7 @@ import { Message, continueConversation } from '@/lib/actions/getAI';
 import { readStreamableValue } from 'ai/rsc';
 import { marked } from 'marked';
 import { SendHorizontalIcon, UserIcon, MessageCircleQuestion, Sparkles } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30;
@@ -60,9 +61,9 @@ export default function Page() {
   };
 
   const predefinedMessages = [
-    'What are the current trends and growth opportunities in our industry, and how do our products/services align with these trends?',
-    'Can you analyze the market share of our competitors and suggest strategies to improve our position?',
-    'What are the most significant challenges facing our business, and how can we address them?',
+    'Can you provide insights on optimizing my finance to increase profit and sales?',
+    'What are the key performance indicators (KPIs) I should track to measure the success of my business?',
+    'How can I use my data to improve my inventory management and reduce operational costs?',
   ];
 
   return (
@@ -70,14 +71,14 @@ export default function Page() {
       <div className="w-full flex-grow overflow-auto p-4" style={{ maxHeight: 'calc(100% - 64px)' }}>
         {conversation.map((message, index) => renderMessage(message, index))}
         {!hasConversationStarted && (
-          <div>
-            <h1 className="text-6xl text-white mb-10">
+          <div >
+            <h1 className="text-6xl text-white font-semibold mb-10">
               Hello! <br />
               Need assistance with your business <br /> analysis? I'm here to help!
             </h1>
             <div className="flex flex-row justify-between w-full gap-2">
               {predefinedMessages.map((message, index) => (
-                <button key={index} onClick={() => handleSendMessage(message)} className="p-3 w-5/6 h-40 max-h-15 font-bold text-neutral-700 bg-white rounded-lg hover:bg-slate-200 text-start ">
+                <button key={index} onClick={() => handleSendMessage(message)} className="p-3 w-5/6 h-40 max-h-15 font-medium text-neutral-700 bg-white rounded-lg hover:bg-slate-200 text-start ">
                   <MessageCircleQuestion className="text-yellow-500" />
                   <p className="mt-2">{message}</p>
                 </button>
@@ -87,12 +88,12 @@ export default function Page() {
         )}
       </div>
 
-      <div className="flex items-center p-4 sticky bottom-0">
+      <div className="flex items-center p-4 sticky bottom-0 gap-2">
         <input
           type="text"
           value={input}
           onChange={(event) => setInput(event.target.value)}
-          className="flex-grow p-2 border-2 border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-200"
+          className="flex-grow w-[95%] p-2 border-2 border-gray-500 rounded-lg focus:outline-none focus:ring-2 py-3 px-4 focus:ring-emerald-200"
           placeholder="Type your message..."
           onKeyDown={(event) => {
             if (event.key === 'Enter') {
@@ -100,9 +101,9 @@ export default function Page() {
             }
           }}
         />
-        <button onClick={() => handleSendMessage(input)} className="absolute right-2 px-4 py-2 font-bold text-white">
-          <SendHorizontalIcon className="text-black" />
-        </button>
+        <Button onClick={() => handleSendMessage(input)} className="w-[5%] px-4 h-full font-bold text-emerald-600 bg-zinc-50 hover:bg-emerald-950 ">
+          <SendHorizontalIcon />
+        </Button>
       </div>
     </>
   );
