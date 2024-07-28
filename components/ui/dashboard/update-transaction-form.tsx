@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { createTransaction } from '@/lib/actions/mutateTransactions';
+import { updateTransaction } from '@/lib/actions/mutateTransactions';
 import { cn } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { DialogClose } from '@radix-ui/react-dialog';
@@ -39,10 +39,12 @@ const formSchema = z.object({
     .max(8, { message: 'Transaction time is invalid' }),
 });
 
-export default function CreateTransactionForm({
+export default function UpdateTransactionForm({
   user_id,
+  transaction,
 }: {
   user_id: string;
+  transaction: any;
 }) {
   const [isPending, startTransition] = useTransition();
 
@@ -50,17 +52,14 @@ export default function CreateTransactionForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       user_id: user_id,
-      type: 'Income',
-      name: '',
-      amount: '',
-      date: new Date(),
-      time: '',
+      type: transaction.type,
+      date: new Date(transaction.date),
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const formData = new FormData();
-    formData.append('user_id', values.user_id);
+    formData.append('user_id', user_id);
     formData.append('type', values.type);
     formData.append('name', values.name);
     formData.append('amount', values.amount);
@@ -69,12 +68,12 @@ export default function CreateTransactionForm({
 
     try {
       startTransition(async () => {
-        await createTransaction(formData);
+        await updateTransaction(transaction.id, formData);
         form.reset();
         window.location.reload();
       });
     } catch (error) {
-      console.error('Failed to create transaction:', error);
+      console.error('Failed to update transaction:', error);
     }
   }
 
@@ -128,7 +127,7 @@ export default function CreateTransactionForm({
               <FormLabel>Name</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="Input transaction name"
+                  placeholder={transaction.name}
                   disabled={isPending}
                   {...field}
                 />
@@ -145,7 +144,7 @@ export default function CreateTransactionForm({
               <FormLabel>Amount</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="Input transaction amount (IDR)"
+                  placeholder={transaction.amount}
                   disabled={isPending}
                   {...field}
                 />
@@ -206,7 +205,7 @@ export default function CreateTransactionForm({
               <FormLabel>Time</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="Input transaction time (HH:MM:SS)"
+                  placeholder={transaction.time}
                   disabled={isPending}
                   {...field}
                 />
