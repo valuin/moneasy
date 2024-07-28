@@ -8,11 +8,23 @@ As Easy As Talking To A Person
 </p>
 
 <p align="center">
+  <a href="#tech-stack"><strong>Tech Stack</strong></a> ·
   <a href="#features"><strong>Features</strong></a> ·
   <a href="#demo"><strong>Demo</strong></a> ·
   <a href="#clone-and-run-locally"><strong>Clone and run locally</strong></a> ·
 </p>
 <br/>
+
+## Tech Stack
+- Typescript
+- React.js
+- Next.js
+- Supabase
+- Tailwind
+- ShadCN
+- Vercel AI SDK
+- Lucide React
+- Recharts
 
 ## Features
 
@@ -58,6 +70,8 @@ NEXT_PUBLIC_SUPABASE_URL=[INSERT SUPABASE PROJECT URL]
 NEXT_PUBLIC_SUPABASE_ANON_KEY=[INSERT SUPABASE PROJECT API ANON KEY]
 OPENAI_API_KEY=[INSERT OPENAI API KEY]
 ```
+4. Seed The Supabase Tables
+   <img alt="Moneasy Schema" src="public/schema.png">
 
 5. npm install
 
