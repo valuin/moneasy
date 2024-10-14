@@ -34,8 +34,8 @@ export default function NavbarContent() {
             mx-auto flex justify-between items-center text-sm p-3 
             transition-all duration-300 ease-in-out
             ${scrollProgress > 0 
-              ? 'bg-emerald-950/70 backdrop-blur-md shadow-lg rounded-xl' 
-              : 'bg-emerald-950/60 backdrop-blur-md shadow-lg'
+              ? 'bg-emerald-950/30 backdrop-blur-md shadow-lg rounded-xl text-emerald-100' 
+              : 'mt-4 text-emerald-500'
             }
           `}
           style={{
@@ -46,10 +46,10 @@ export default function NavbarContent() {
         >
           <div className="flex items-center justify-between w-full px-12">
             <BrandLogo />
-            <ul className="hidden md:flex space-x-4 text-base font-semibold text-emerald-500 text-shadow-glow ml-12">
+            <ul className="hidden md:flex space-x-4 text-base font-semibold  text-shadow-glow ml-12">
               <li className="relative group">
                 <Link href="/#services" passHref>
-                  <span className="hover:no-underline text-emerald-500 text-shadow-glow">
+                  <span className="hover:no-underline text-shadow-glow">
                     Services
                   </span>
                 </Link>
@@ -57,7 +57,7 @@ export default function NavbarContent() {
               </li>
               <li className="relative group">
                 <Link href="/#contacts" passHref>
-                  <span className="hover:no-underline text-emerald-500 text-shadow-glow">
+                  <span className="hover:no-underline text-shadow-glow">
                     Contacts
                   </span>
                 </Link>
